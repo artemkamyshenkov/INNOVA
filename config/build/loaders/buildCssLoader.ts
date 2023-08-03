@@ -16,6 +16,7 @@ export function buildCssLoader(isDev: boolean) {
           },
         },
       },
+      'postcss-loader',
       'sass-loader',
     ],
   };

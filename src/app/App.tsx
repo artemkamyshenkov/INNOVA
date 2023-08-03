@@ -3,6 +3,7 @@ import { Layout, Menu } from 'antd';
 import { useTheme } from '@/app/providers/themeProvider';
 import AppRouter from '@/app/providers/router/ui/AppRouter';
 import './styles/index.scss';
+import { Sidebar } from '@/widgets/Sidebar/ui/Sidebar';
 
 export const App = () => {
   const { theme, toggleTheme } = useTheme();
@@ -21,6 +22,7 @@ export const App = () => {
 
       <Layout.Content>
         <AppRouter />
+        <Sidebar />
         <h1>App</h1>
         <button type="button" onClick={toggleTheme}>
           toggle
