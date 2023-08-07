@@ -7,7 +7,7 @@ import { Sidebar } from '@/widgets/Sidebar/ui/Sidebar';
 import './styles/index.scss';
 
 export const App = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <Layout className={cn('app', theme)}>
@@ -18,9 +18,6 @@ export const App = () => {
           </Col>
           <Col xl={10}>
             <AppRouter />
-            <button type="button" onClick={toggleTheme}>
-              toggle
-            </button>
           </Col>
         </Row>
       </Layout.Content>
