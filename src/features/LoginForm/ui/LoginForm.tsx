@@ -1,6 +1,8 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Space } from 'antd';
 import { Col, Row } from 'react-grid-system';
+import { Link } from 'react-router-dom';
+import styles from './LoginForm.module.scss';
 
 export const LoginForm = () => {
   const onFinish = (values: any) => {
@@ -10,44 +12,25 @@ export const LoginForm = () => {
   return (
     <Row align="center" justify="center">
       <Col xl={6}>
-        <Form
-          name="loginForm"
-          onFinish={onFinish}
-          initialValues={{
-            remember: true,
-          }}
-        >
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your username!',
-              },
-            ]}
-          >
+        <Form name="loginForm" onFinish={onFinish}>
+          <Form.Item label="Username" name="username" labelCol={{ span: 24 }}>
             <Input />
           </Form.Item>
 
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-            ]}
-          >
+          <Form.Item label="Password" name="password" labelCol={{ span: 24 }}>
             <Input.Password />
           </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Log in
+          <Space direction="vertical" className={styles.buttonsContainer}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className={styles.signinButton}
+            >
+              Войти
             </Button>
-          </Form.Item>
+            <Link to="/register">Еще не с нами? Создать аккаунт</Link>
+          </Space>
         </Form>
       </Col>
     </Row>

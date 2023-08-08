@@ -12,5 +12,9 @@ body {
   background: var(--bg-color);
   min-height: 100vh;
   color: var(--primary-color);
-  overflow-y: auto;
+  overflow: hidden;
+}
+
+.ant-form-item-label {
+  padding: 0 !important;
 }
