@@ -1,4 +1,4 @@
-import { RouteProps } from 'react-router-dom';
+import { Navigate, RouteProps } from 'react-router-dom';
 import { MainPage } from '@/screens/MainPage';
 import { AboutPage } from '@/screens/AboutPage';
 import { NotFoundPage } from '@/screens/NotFoundPage';
@@ -21,10 +21,10 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.NOT_FOUND]: '*',
 };
 
-export const routeConfig: Record<AppRoutes, RouteProps> = {
+export const getRoutes = (isLoggedIn: boolean) => ({
   [AppRoutes.MAIN]: {
     path: RoutePath.main,
-    element: <MainPage />,
+    element: isLoggedIn ? <MainPage /> : <Navigate to="/login" />,
   },
   [AppRoutes.ABOUT]: {
     path: RoutePath.about,
@@ -42,4 +42,4 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
     path: RoutePath.register,
     element: <RegisterPage />,
   },
-};
+});
