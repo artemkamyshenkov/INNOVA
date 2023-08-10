@@ -3,6 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import Dotenv from 'dotenv-webpack';
 import { BuildOptions } from './types/config';
 
 export function buildPlugins({
@@ -34,6 +35,7 @@ export function buildPlugins({
         openAnalyzer: false,
       }),
     );
+    plugins.push(new Dotenv());
   }
 
   return plugins;
