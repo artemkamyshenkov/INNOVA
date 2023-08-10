@@ -17,7 +17,7 @@ module.exports = {
   rules: {
     'react/jsx-indent': [2, 2],
     'react/jsx-indent-props': [2, 2],
-    indent: [2, 2],
+    indent: 'off',
     'react/jsx-filename-extension': [
       2,
       { extensions: ['.js', '.jsx', '.tsx'] },
@@ -45,6 +45,16 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'operator-linebreak': 'off',
     'max-len': ['error', { ignoreComments: true, code: 100 }],
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        labelComponents: ['label'],
+        labelAttributes: ['inputLabel'],
+        controlComponents: ['input'],
+        assert: 'both',
+        depth: 3,
+      },
+    ],
   },
   globals: {
     __IS_DEV__: true,
