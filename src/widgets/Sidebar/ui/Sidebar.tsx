@@ -25,7 +25,7 @@ export const Sidebar = () => {
     return '';
   };
   return (
-    <>
+    <div className={styles.sidebarContainer}>
       <Button
         type="primary"
         onClick={toggleCollapsed}
@@ -40,6 +40,6 @@ export const Sidebar = () => {
         className={styles.sidebar}
         onClick={props => handleClickItem(props.key)}
       />
-    </>
+    </div>
   );
 };

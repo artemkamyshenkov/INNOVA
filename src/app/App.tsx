@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import { Layout } from 'antd';
-import { Row, Col } from 'react-grid-system';
+import { Row, Col, Container } from 'react-grid-system';
 import { useTheme } from '@/app/providers/themeProvider';
 import AppRouter from '@/app/providers/router/ui/AppRouter';
 import { Sidebar } from '@/widgets/Sidebar/ui/Sidebar';
@@ -13,17 +13,9 @@ export const App = () => {
   const isLoggedIn = !!authData.id;
   return (
     <Layout className={cn('app', theme)}>
-      <Layout.Content>
-        <Row>
-          {isLoggedIn && (
-            <Col xl={2}>
-              <Sidebar />
-            </Col>
-          )}
-          <Col xl={10}>
-            <AppRouter isLoggedIn={isLoggedIn} />
-          </Col>
-        </Row>
+      <Layout.Content className="content">
+        {isLoggedIn && <Sidebar />}
+        <AppRouter isLoggedIn={isLoggedIn} />
       </Layout.Content>
     </Layout>
   );

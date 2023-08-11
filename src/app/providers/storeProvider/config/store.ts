@@ -9,7 +9,8 @@ export function createReduxStore(initialState?: StateSchema) {
   };
   const reducerManager = createReducerManager(rootReducers);
   const store = configureStore<StateSchema>({
-    reducer: reducerManager.reduce,
+    reducer: rootReducers,
+    devTools: __IS_DEV__,
     preloadedState: initialState,
   });
   // @ts-ignore

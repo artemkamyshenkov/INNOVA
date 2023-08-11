@@ -27,6 +27,7 @@ export function buildPlugins({
         postcss: [autoprefixer()],
       },
     }),
+    new webpack.HotModuleReplacementPlugin(),
   ];
   if (isDev) {
     plugins.push(new webpack.HotModuleReplacementPlugin());

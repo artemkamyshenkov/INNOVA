@@ -2,52 +2,30 @@ import { Button, Space } from 'antd';
 import { Col, Row } from 'react-grid-system';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import styles from './RegisterForm.module.scss';
 import { useAppDispatch } from '@/shared/hooks/redux';
-import { userActions } from '@/entities/User';
-
-type FormData = {
-  name: string;
-  email: string;
-  password: string;
-};
+import { RegisterFormData } from '../model/types';
+import { registerUser } from '@/entities/User/model/actions/actions';
 
 export const RegisterForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<RegisterFormData>();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const onSubmit = (data: FormData) => {
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then(userCredential => {
-        const { user } = userCredential;
-        dispatch(
-          userActions.setAuthData({
-            id: user.uid,
-            email: user.email,
-          }),
-        );
-        navigate('/', { replace: true });
-      })
-      .catch(error => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(error);
-        // ..
-      });
+  const onSubmit = async ({ email, password }: RegisterFormData) => {
+    await dispatch(registerUser({ email, password }));
+    navigate('/', { replace: true });
   };
   return (
     <>
       <Row align="center" justify="center">
-        <Col xl={1}>
+        <Col xl={4} className={styles.iconContainer}>
           <ServiceIcon name="telegram" />
         </Col>
       </Row>
