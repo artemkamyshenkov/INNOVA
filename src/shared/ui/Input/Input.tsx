@@ -16,6 +16,7 @@ export const Input = <T extends unknown>({
   register,
   required = false,
   displayLabel,
+  ...props
 }: InputProps<T>) => (
   <>
     <label htmlFor={id}>{displayLabel}</label>
@@ -23,6 +24,7 @@ export const Input = <T extends unknown>({
       {...register(label, { required })}
       id={id}
       className={styles.input}
+      {...props}
     />
   </>
 );

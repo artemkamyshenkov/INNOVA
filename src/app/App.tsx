@@ -20,7 +20,9 @@ export const App = () => {
               <Sidebar />
             </Col>
           )}
-          <AppRouter isLoggedIn={isLoggedIn} />
+          <Col xl={10}>
+            <AppRouter isLoggedIn={isLoggedIn} />
+          </Col>
         </Row>
       </Layout.Content>
     </Layout>

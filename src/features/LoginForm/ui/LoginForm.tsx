@@ -1,13 +1,47 @@
 import React from 'react';
-import { Form, Input, Button, Space } from 'antd';
+import { Button, Space } from 'antd';
 import { Col, Row } from 'react-grid-system';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import styles from './LoginForm.module.scss';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
+import { Input } from '@/shared/ui/Input';
+import { useAppDispatch } from '@/shared/hooks/redux';
+import { userActions } from '@/entities/User';
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 export const LoginForm = () => {
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const onSubmit = (data: FormData) => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then(userCredential => {
+        const { user } = userCredential;
+        dispatch(
+          userActions.setAuthData({
+            id: user.uid,
+            email: user.email,
+          }),
+        );
+        navigate('/', { replace: true });
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(error);
+      });
   };
 
   return (
@@ -19,26 +53,34 @@ export const LoginForm = () => {
       </Row>
       <Row align="center" justify="center">
         <Col xl={4}>
-          <Form name="loginForm" onFinish={onFinish}>
-            <Form.Item label="Username" name="username" labelCol={{ span: 24 }}>
-              <Input />
-            </Form.Item>
-
-            <Form.Item label="Password" name="password" labelCol={{ span: 24 }}>
-              <Input.Password />
-            </Form.Item>
-
+          <form name="loginForm" onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              label="email"
+              displayLabel="Электронная почта"
+              id="email"
+              register={register}
+              required
+              type="email"
+            />
+            <Input
+              label="password"
+              id="password"
+              displayLabel="Пароль"
+              register={register}
+              required
+              type="password"
+            />
             <Space direction="vertical" className={styles.buttonsContainer}>
               <Button
                 type="primary"
                 htmlType="submit"
-                className={styles.signinButton}
+                className={styles.signupButton}
               >
                 Войти
               </Button>
-              <Link to="/register">Еще не с нами? Создать аккаунт</Link>
+              <Link to="/login">Еще нет аккаунта? Зарегистрироваться</Link>
             </Space>
-          </Form>
+          </form>
         </Col>
       </Row>
     </>
