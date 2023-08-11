@@ -1,9 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Col, Row } from 'react-grid-system';
-import { Button, Space } from 'antd';
+import { Button, Space, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 import { loginByUsername } from '@/entities/User/model/actions/actions';
-import { useAppDispatch } from '@/shared/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
 import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import { LoginFormData } from '../model/types';
@@ -18,6 +19,7 @@ export const LoginForm = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { isLoading } = useAppSelector(state => state.user);
   const onSubmit = async ({ email, password }: LoginFormData) => {
     await dispatch(loginByUsername({ email, password }));
     navigate('/', { replace: true });
@@ -50,13 +52,22 @@ export const LoginForm = () => {
               type="password"
             />
             <Space direction="vertical" className={styles.buttonsContainer}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className={styles.signinButton}
-              >
-                Войти
-              </Button>
+              {isLoading ? (
+                <Button type="primary" className={styles.signinButton} disabled>
+                  <Spin
+                    indicator={<LoadingOutlined className={styles.spin} />}
+                  />
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className={styles.signinButton}
+                >
+                  Войти
+                </Button>
+              )}
+
               <Link to="/register">Еще нет аккаунта? Зарегистрироваться</Link>
             </Space>
           </form>

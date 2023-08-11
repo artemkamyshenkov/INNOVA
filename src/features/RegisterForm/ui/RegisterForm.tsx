@@ -1,11 +1,12 @@
-import { Button, Space } from 'antd';
+import { Button, Space, Spin } from 'antd';
 import { Col, Row } from 'react-grid-system';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { LoadingOutlined } from '@ant-design/icons';
 import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import styles from './RegisterForm.module.scss';
-import { useAppDispatch } from '@/shared/hooks/redux';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
 import { RegisterFormData } from '../model/types';
 import { registerUser } from '@/entities/User/model/actions/actions';
 
@@ -18,6 +19,7 @@ export const RegisterForm = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { isLoading } = useAppSelector(state => state.user);
   const onSubmit = async ({ email, password }: RegisterFormData) => {
     await dispatch(registerUser({ email, password }));
     navigate('/', { replace: true });
@@ -58,13 +60,21 @@ export const RegisterForm = () => {
               type="password"
             />
             <Space direction="vertical" className={styles.buttonsContainer}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className={styles.signupButton}
-              >
-                Зарегистрироваться
-              </Button>
+              {isLoading ? (
+                <Button type="primary" className={styles.signinButton} disabled>
+                  <Spin
+                    indicator={<LoadingOutlined className={styles.spin} />}
+                  />
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className={styles.signupButton}
+                >
+                  Зарегистрироваться
+                </Button>
+              )}
               <Link to="/login">Уже есть аккаунт? Войти</Link>
             </Space>
           </form>
