@@ -3,25 +3,28 @@ import { useForm } from 'react-hook-form';
 import { Col, Row } from 'react-grid-system';
 import { Button, Space, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-import { loginByUsername } from '@/entities/User/model/actions/actions';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
+import { useAppDispatch } from '@/shared/hooks/redux';
 import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import { LoginFormData } from '../model/types';
 import styles from './LoginForm.module.scss';
+import { useLoginUserMutation } from '@/shared/api/authService';
+import { userActions } from '@/entities/User';
 
 export const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>();
-
+  const { register, handleSubmit } = useForm<LoginFormData>();
+  const [loginByUsername, { isLoading }] = useLoginUserMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isLoading } = useAppSelector(state => state.user);
+
   const onSubmit = async ({ email, password }: LoginFormData) => {
-    await dispatch(loginByUsername({ email, password }));
+    const user = await loginByUsername({
+      email,
+      password,
+      returnSecureToken: true,
+    }).unwrap();
+    dispatch(userActions.setAuthData({ id: user.localId, email: user.email }));
+
     navigate('/', { replace: true });
   };
 

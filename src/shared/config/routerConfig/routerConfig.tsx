@@ -36,7 +36,7 @@ export const getRoutes = (isLoggedIn: boolean) => ({
   },
   [AppRoutes.ABOUT]: {
     path: RoutePath.about,
-    element: <AboutPage />,
+    element: isLoggedIn ? <AboutPage /> : <Navigate to="/login" />,
   },
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath.not_found,

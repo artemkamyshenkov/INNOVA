@@ -6,9 +6,10 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import styles from './RegisterForm.module.scss';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
+import { useAppDispatch } from '@/shared/hooks/redux';
 import { RegisterFormData } from '../model/types';
-import { registerUser } from '@/entities/User/model/actions/actions';
+import { useRegisterUserMutation } from '@/shared/api/authService';
+import { userActions } from '@/entities/User';
 
 export const RegisterForm = () => {
   const {
@@ -16,12 +17,18 @@ export const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormData>();
+  const [registerUser, { error, data, isLoading }] = useRegisterUserMutation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isLoading } = useAppSelector(state => state.user);
+
   const onSubmit = async ({ email, password }: RegisterFormData) => {
-    await dispatch(registerUser({ email, password }));
+    const user = await registerUser({
+      email,
+      password,
+      returnSecureToken: true,
+    }).unwrap();
+    dispatch(userActions.setAuthData({ id: user.localId, email: user.email }));
     navigate('/', { replace: true });
   };
   return (

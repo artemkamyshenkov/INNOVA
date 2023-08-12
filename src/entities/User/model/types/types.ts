@@ -1,10 +1,8 @@
-export interface User {
+export interface AuthData {
   id: string;
   email: string;
 }
 
 export interface UserSchema {
-  authData?: User;
-  error?: string;
-  isLoading?: boolean;
+  authData?: AuthData;
 }
