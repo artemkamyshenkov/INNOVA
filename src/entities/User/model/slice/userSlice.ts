@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { User, UserSchema } from '../types/types';
 import { loginByUsername, registerUser } from '../actions/actions';
+import { CURRENT_USER_SESSION } from '@/shared/constants';
 
 const initialState: UserSchema = {
   authData: {
@@ -21,6 +22,17 @@ export const userSlice = createSlice({
     logOut: state => {
       state.authData.id = null;
       state.authData.email = null;
+      localStorage.removeItem(CURRENT_USER_SESSION);
+    },
+    initialUser: state => {
+      const currentUser = JSON.parse(
+        localStorage.getItem(CURRENT_USER_SESSION),
+      );
+
+      if (currentUser?.id) {
+        state.authData.id = currentUser?.id;
+        state.authData.email = currentUser?.email;
+      }
     },
   },
   extraReducers: builder => {

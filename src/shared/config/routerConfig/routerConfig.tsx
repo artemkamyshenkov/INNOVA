@@ -22,6 +22,14 @@ export const RoutePath: Record<AppRoutes, string> = {
 };
 
 export const getRoutes = (isLoggedIn: boolean) => ({
+  [AppRoutes.LOGIN]: {
+    path: RoutePath.login,
+    element: !isLoggedIn ? <LoginPage /> : <Navigate to="/" />,
+  },
+  [AppRoutes.REGISTER]: {
+    path: RoutePath.register,
+    element: !isLoggedIn ? <RegisterPage /> : <Navigate to="/" />,
+  },
   [AppRoutes.MAIN]: {
     path: RoutePath.main,
     element: isLoggedIn ? <MainPage /> : <Navigate to="/login" />,
@@ -33,13 +41,5 @@ export const getRoutes = (isLoggedIn: boolean) => ({
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath.not_found,
     element: <NotFoundPage />,
-  },
-  [AppRoutes.LOGIN]: {
-    path: RoutePath.login,
-    element: <LoginPage />,
-  },
-  [AppRoutes.REGISTER]: {
-    path: RoutePath.register,
-    element: <RegisterPage />,
   },
 });
