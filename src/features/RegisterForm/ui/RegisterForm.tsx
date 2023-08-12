@@ -1,35 +1,46 @@
-import { Button, Space, Spin } from 'antd';
-import { Col, Row } from 'react-grid-system';
-import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Col, Row } from 'react-grid-system';
+import { Button, Space, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { userActions } from '@/entities/User';
+import { useRegisterUserMutation } from '@/shared/api/authService';
+import { firebaseError } from '@/shared/helpers/firebaseError';
+import { useAppDispatch } from '@/shared/hooks/redux';
+import { AuthError } from '@/shared/types/firebase';
 import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
-import styles from './RegisterForm.module.scss';
-import { useAppDispatch } from '@/shared/hooks/redux';
 import { RegisterFormData } from '../model/types';
-import { useRegisterUserMutation } from '@/shared/api/authService';
-import { userActions } from '@/entities/User';
+import styles from './RegisterForm.module.scss';
 
 export const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterFormData>();
-  const [registerUser, { error, data, isLoading }] = useRegisterUserMutation();
+    formState: { errors: formErrors },
+    watch,
+  } = useForm<RegisterFormData>({ mode: 'onBlur' });
+  const [registerUser, { error, isLoading }] = useRegisterUserMutation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const password = watch('password', '');
+  const confirmPassword = watch('confirmPassword', '');
 
   const onSubmit = async ({ email, password }: RegisterFormData) => {
-    const user = await registerUser({
-      email,
-      password,
-      returnSecureToken: true,
-    }).unwrap();
-    dispatch(userActions.setAuthData({ id: user.localId, email: user.email }));
-    navigate('/', { replace: true });
+    try {
+      const user = await registerUser({
+        email,
+        password,
+        returnSecureToken: true,
+      }).unwrap();
+      dispatch(
+        userActions.setAuthData({ id: user.localId, email: user.email }),
+      );
+      navigate('/', { replace: true });
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <>
@@ -42,30 +53,65 @@ export const RegisterForm = () => {
         <Col xl={4}>
           <form name="loginForm" onSubmit={handleSubmit(onSubmit)}>
             <Input
-              label="name"
-              displayLabel="Имя"
+              label="Имя"
               id="name"
               register={register}
-              required
-              aria-invalid={errors.name ? 'true' : 'false'}
+              fieldName="name"
+              rules={{
+                required: 'Поле обязательно к заполнению',
+              }}
+              error={formErrors?.name?.message}
             />
-            {errors.name?.type === 'required' && <p>First name is required</p>}
+
             <Input
-              label="email"
-              displayLabel="Электронная почта"
+              label="Электронная почта"
               id="email"
               register={register}
-              required
               type="email"
+              fieldName="email"
+              rules={{
+                required: 'Поле обязательно к заполнению',
+              }}
+              error={formErrors?.email?.message}
             />
             <Input
-              label="password"
+              label="Пароль"
               id="password"
-              displayLabel="Пароль"
               register={register}
-              required
               type="password"
+              fieldName="password"
+              rules={{
+                required: 'Поле обязательно к заполнению',
+                minLength: {
+                  value: 6,
+                  message: 'Минимум 6 символов',
+                },
+              }}
+              error={formErrors?.password?.message}
             />
+            <Input
+              label="Повторите пароль"
+              id="confirmPassword"
+              register={register}
+              type="confirmPassword"
+              fieldName="confirmPassword"
+              rules={{
+                required: 'Поле обязательно к заполнению',
+                minLength: {
+                  value: 6,
+                  message: 'Минимум 6 символов',
+                },
+              }}
+              error={formErrors?.confirmPassword?.message}
+            />
+            {password !== confirmPassword && (
+              <p className={styles.passwordError}>Пароли не совпадают</p>
+            )}
+            {error && (
+              <p className={styles.error}>
+                {firebaseError(error as AuthError)}
+              </p>
+            )}
             <Space direction="vertical" className={styles.buttonsContainer}>
               {isLoading ? (
                 <Button type="primary" className={styles.signinButton} disabled>

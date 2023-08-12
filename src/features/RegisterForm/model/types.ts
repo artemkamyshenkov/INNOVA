@@ -3,4 +3,5 @@ export interface RegisterFormData {
   email: string;
   password: string;
   returnSecureToken?: boolean;
+  confirmPassword?: string;
 }

@@ -1,3 +1,4 @@
+@import '../../../app/styles/mixins.scss';
 .input {
   border: 1px solid #ccc;
   padding: 7px 14px 9px;
@@ -8,4 +9,10 @@
     border: 1px solid #1569c7;
     outline-width: 0;
   }
+}
+
+.error {
+  @include errorMessage;
+  text-align: start;
+  margin-bottom: 0.5rem;
 }

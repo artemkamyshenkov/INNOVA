@@ -1,21 +1,25 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { Col, Row } from 'react-grid-system';
-import { Button, Space, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Space, Spin } from 'antd';
+import { useLoginUserMutation } from '@/shared/api/authService';
+import { firebaseError } from '@/shared/helpers/firebaseError';
 import { useAppDispatch } from '@/shared/hooks/redux';
+import { AuthError } from '@/shared/types/firebase';
 import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import { LoginFormData } from '../model/types';
 import styles from './LoginForm.module.scss';
-import { useLoginUserMutation } from '@/shared/api/authService';
 import { userActions } from '@/entities/User';
-import { firebaseError } from '@/shared/helpers/firebaseError';
-import { AuthError } from '@/shared/types/firebase';
 
 export const LoginForm = () => {
-  const { register, handleSubmit } = useForm<LoginFormData>();
-  const [loginByUsername, { isLoading, error, data }] = useLoginUserMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: formError },
+  } = useForm<LoginFormData>({ mode: 'onBlur' });
+  const [loginByUsername, { isLoading, error }] = useLoginUserMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -46,20 +50,31 @@ export const LoginForm = () => {
         <Col xl={4}>
           <form name="loginForm" onSubmit={handleSubmit(onSubmit)}>
             <Input
-              label="email"
-              displayLabel="Электронная почта"
+              label="Электронная почта"
               id="email"
-              register={register}
-              required
               type="email"
-            />
-            <Input
-              label="password"
-              id="password"
-              displayLabel="Пароль"
+              fieldName="email"
               register={register}
-              required
+              rules={{
+                required: 'Поле обязательно к заполнению',
+              }}
+              error={formError?.email?.message}
+            />
+
+            <Input
+              label="Пароль"
+              id="password"
+              register={register}
               type="password"
+              fieldName="password"
+              rules={{
+                required: 'Поле обязательно к заполнению',
+                minLength: {
+                  value: 6,
+                  message: 'Минимум 6 символов',
+                },
+              }}
+              error={formError?.password?.message}
             />
             {error && (
               <p className={styles.error}>
