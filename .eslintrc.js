@@ -55,6 +55,7 @@ module.exports = {
         depth: 3,
       },
     ],
+    'no-console': ['error', { allow: ['warn', 'error'] }],
   },
   globals: {
     __IS_DEV__: true,

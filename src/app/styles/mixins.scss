@@ -1,0 +1,5 @@
+@mixin errorMessage {
+  color: var(--red-light);
+  margin-bottom: 1rem;
+  text-align: center;
+}

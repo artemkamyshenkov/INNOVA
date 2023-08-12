@@ -1,3 +1,5 @@
+@import '../../../app/styles/mixins.scss';
+
 .buttonsContainer {
   display: flex;
   justify-content: center;
@@ -17,4 +19,8 @@
 
 .spin {
   color: #fff;
+}
+
+.error {
+  @include errorMessage;
 }

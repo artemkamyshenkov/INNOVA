@@ -10,22 +10,29 @@ import { LoginFormData } from '../model/types';
 import styles from './LoginForm.module.scss';
 import { useLoginUserMutation } from '@/shared/api/authService';
 import { userActions } from '@/entities/User';
+import { firebaseError } from '@/shared/helpers/firebaseError';
+import { AuthError } from '@/shared/types/firebase';
 
 export const LoginForm = () => {
   const { register, handleSubmit } = useForm<LoginFormData>();
-  const [loginByUsername, { isLoading }] = useLoginUserMutation();
+  const [loginByUsername, { isLoading, error, data }] = useLoginUserMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onSubmit = async ({ email, password }: LoginFormData) => {
-    const user = await loginByUsername({
-      email,
-      password,
-      returnSecureToken: true,
-    }).unwrap();
-    dispatch(userActions.setAuthData({ id: user.localId, email: user.email }));
-
-    navigate('/', { replace: true });
+    try {
+      const user = await loginByUsername({
+        email,
+        password,
+        returnSecureToken: true,
+      }).unwrap();
+      dispatch(
+        userActions.setAuthData({ id: user.localId, email: user.email }),
+      );
+      navigate('/', { replace: true });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -54,6 +61,11 @@ export const LoginForm = () => {
               required
               type="password"
             />
+            {error && (
+              <p className={styles.error}>
+                {firebaseError(error as AuthError)}
+              </p>
+            )}
             <Space direction="vertical" className={styles.buttonsContainer}>
               {isLoading ? (
                 <Button type="primary" className={styles.signinButton} disabled>
