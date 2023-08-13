@@ -1,27 +1,26 @@
 import cn from 'classnames';
 import { Layout } from 'antd';
-import { Row, Col } from 'react-grid-system';
+import { useEffect } from 'react';
 import { useTheme } from '@/app/providers/themeProvider';
 import AppRouter from '@/app/providers/router/ui/AppRouter';
 import { Sidebar } from '@/widgets/Sidebar/ui/Sidebar';
 import './styles/index.scss';
-import { useAppSelector } from '@/shared/hooks/redux';
+import { useAuth } from '@/shared/hooks/useAuth';
+import { useAppDispatch } from '@/shared/hooks/redux';
+import { userActions } from '@/entities/User';
 
 export const App = () => {
+  const dispatch = useAppDispatch();
   const { theme } = useTheme();
-  const { authData } = useAppSelector(state => state.user);
-  const isLoggedIn = !!authData.id;
+  const { isLoggedIn } = useAuth();
+  useEffect(() => {
+    dispatch(userActions.initialUser());
+  }, [dispatch]);
   return (
     <Layout className={cn('app', theme)}>
-      <Layout.Content>
-        <Row>
-          {isLoggedIn && (
-            <Col xl={2}>
-              <Sidebar />
-            </Col>
-          )}
-          <AppRouter isLoggedIn={isLoggedIn} />
-        </Row>
+      <Layout.Content className="content">
+        {isLoggedIn && <Sidebar />}
+        <AppRouter isLoggedIn={isLoggedIn} />
       </Layout.Content>
     </Layout>
   );

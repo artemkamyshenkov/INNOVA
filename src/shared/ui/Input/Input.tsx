@@ -1,28 +1,33 @@
 import { InputHTMLAttributes } from 'react';
-import { Path, UseFormRegister } from 'react-hook-form';
+import { Path, UseFormRegister, RegisterOptions } from 'react-hook-form';
 import styles from './Input.module.scss';
 
 interface InputProps<T> extends InputHTMLAttributes<HTMLInputElement> {
-  label?: Path<T>;
+  fieldName: Path<T>;
   id: string;
   register: UseFormRegister<T>;
-  required: boolean;
-  displayLabel?: string;
+  label?: string;
+  rules?: RegisterOptions;
+  error?: string;
 }
 
 export const Input = <T extends unknown>({
-  label,
+  fieldName,
   id,
   register,
-  required = false,
-  displayLabel,
+  rules = {},
+  label,
+  error,
+  ...props
 }: InputProps<T>) => (
   <>
-    <label htmlFor={id}>{displayLabel}</label>
+    <label htmlFor={id}>{label}</label>
     <input
-      {...register(label, { required })}
+      {...register(fieldName, { ...rules })}
       id={id}
       className={styles.input}
+      {...props}
     />
+    {error && <p className={styles.error}>{error || 'Ошибка'}</p>}
   </>
 );

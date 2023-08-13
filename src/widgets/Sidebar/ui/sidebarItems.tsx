@@ -44,8 +44,8 @@ export const sidebarItems = (): MenuItem[] => [
     icon: <InfoCircleOutlined />,
   },
   {
-    label: 'Войти',
-    key: 'login',
+    label: 'Выйти',
+    key: 'logout',
     icon: <LoginOutlined />,
   },
 ];

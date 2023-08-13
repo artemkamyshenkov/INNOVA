@@ -1,18 +1,20 @@
-import { ReducersMapObject, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import { userReducer } from '@/entities/User';
 import { StateSchema } from './StateSchema';
-import { createReducerManager } from './reducerManager';
+
+import { authApi } from '@/shared/api/authService';
 
 export function createReduxStore(initialState?: StateSchema) {
-  const rootReducers: ReducersMapObject<StateSchema> = {
+  const rootReducers = {
     user: userReducer,
+    [authApi.reducerPath]: authApi.reducer,
   };
-  const reducerManager = createReducerManager(rootReducers);
   const store = configureStore<StateSchema>({
-    reducer: reducerManager.reduce,
+    reducer: rootReducers,
+    devTools: __IS_DEV__,
     preloadedState: initialState,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(authApi.middleware) as any,
   });
-  // @ts-ignore
-  store.reducerManager = reducerManager;
   return store;
 }
