@@ -12,6 +12,7 @@ import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import { LoginFormData } from '../model/types';
 import styles from './LoginForm.module.scss';
 import { userActions } from '@/entities/User';
+import { userService } from '@/shared/api/userService';
 
 export const LoginForm = () => {
   const {
@@ -33,6 +34,8 @@ export const LoginForm = () => {
       dispatch(
         userActions.setAuthData({ id: user.localId, email: user.email }),
       );
+      const currentUser = await userService.getCurrentUser(user.localId);
+      dispatch(userActions.setCurrentuser(currentUser));
       navigate('/', { replace: true });
     } catch (err) {
       console.error(err);

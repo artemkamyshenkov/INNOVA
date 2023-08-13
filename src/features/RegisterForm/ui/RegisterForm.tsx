@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Col, Row } from 'react-grid-system';
 import { Button, Space, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
+import { ref, set } from 'firebase/database';
 import { userActions } from '@/entities/User';
 import { useRegisterUserMutation } from '@/shared/api/authService';
 import { firebaseError } from '@/shared/helpers/firebaseError';
@@ -12,6 +13,7 @@ import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import { RegisterFormData } from '../model/types';
 import styles from './RegisterForm.module.scss';
+import { database } from '@/shared/config/firebase/firebaseConfig';
 
 export const RegisterForm = () => {
   const {
@@ -27,7 +29,7 @@ export const RegisterForm = () => {
   const password = watch('password', '');
   const confirmPassword = watch('confirmPassword', '');
 
-  const onSubmit = async ({ email, password }: RegisterFormData) => {
+  const onSubmit = async ({ email, password, name }: RegisterFormData) => {
     try {
       const user = await registerUser({
         email,
@@ -37,6 +39,12 @@ export const RegisterForm = () => {
       dispatch(
         userActions.setAuthData({ id: user.localId, email: user.email }),
       );
+      await set(ref(database, `users/${user.localId}`), {
+        firstName: name,
+        email,
+        uid: user.localId,
+      });
+
       navigate('/', { replace: true });
     } catch (err) {
       console.error(err);
@@ -93,7 +101,7 @@ export const RegisterForm = () => {
               label="Повторите пароль"
               id="confirmPassword"
               register={register}
-              type="confirmPassword"
+              type="password"
               fieldName="confirmPassword"
               rules={{
                 required: 'Поле обязательно к заполнению',

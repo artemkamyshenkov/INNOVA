@@ -1,11 +1,18 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AuthData, UserSchema } from '../types/types';
+import { AuthData, CurrentUser, UserSchema } from '../types/types';
 import { CURRENT_USER_SESSION } from '@/shared/constants';
 
 const initialState: UserSchema = {
   authData: {
     id: null,
     email: null,
+  },
+  user: {
+    email: null,
+    firstName: null,
+    lastName: null,
+    about: null,
+    avatar: null,
   },
 };
 
@@ -35,6 +42,9 @@ export const userSlice = createSlice({
         state.authData.id = currentUser?.id;
         state.authData.email = currentUser?.email;
       }
+    },
+    setCurrentuser: (state, action: PayloadAction<CurrentUser>) => {
+      state.user = action.payload;
     },
   },
 });
