@@ -35,7 +35,7 @@ export const LoginForm = () => {
         userActions.setAuthData({ id: user.localId, email: user.email }),
       );
       const currentUser = await userService.getCurrentUser(user.localId);
-      dispatch(userActions.setCurrentuser(currentUser));
+      dispatch(userActions.setCurrentUser(currentUser));
       navigate('/', { replace: true });
     } catch (err) {
       console.error(err);

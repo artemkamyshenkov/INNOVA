@@ -13,7 +13,7 @@ export const userService = {
       return null;
     } catch (error) {
       console.error(error);
-      throw error; // Отправляем ошибку дальше для обработки
+      throw error;
     }
   },
 };

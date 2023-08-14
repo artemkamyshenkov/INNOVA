@@ -9,6 +9,7 @@ export interface CurrentUser {
   lastName?: string;
   about?: string;
   avatar?: string;
+  username: string;
 }
 export interface UserSchema {
   authData?: AuthData;
