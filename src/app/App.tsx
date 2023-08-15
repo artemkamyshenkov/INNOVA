@@ -11,16 +11,15 @@ import { userActions } from '@/entities/User';
 import { userService } from '@/shared/api/userService';
 
 export const App = () => {
-  const { user } = useAppSelector(state => state.user);
-  const { authData } = useAppSelector(state => state.user);
+  const { user, authData } = useAppSelector(state => state.user);
+  const { theme } = useTheme();
+  const { isLoggedIn } = useAuth();
   const dispatch = useAppDispatch();
 
   const getUser = async (userId: string) => {
     const currentUser = await userService.getCurrentUser(userId);
     dispatch(userActions.setCurrentUser(currentUser));
   };
-  const { theme } = useTheme();
-  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     dispatch(userActions.initialUser());

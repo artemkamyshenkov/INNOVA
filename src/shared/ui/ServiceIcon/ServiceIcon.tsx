@@ -3,9 +3,10 @@ import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/
 import Icon from '@ant-design/icons';
 import cn from 'classnames';
 import Telegram from '@/shared/icons/telegram.svg';
+import Avatar from '@/shared/icons/avatar.png';
 import styles from './ServiceIcon.module.scss';
 
-export const iconNames = ['telegram'] as const;
+export const iconNames = ['telegram', 'avatar'] as const;
 
 export type IconName = (typeof iconNames)[number];
 
@@ -17,6 +18,7 @@ interface ServiceIconProps extends Partial<CustomIconComponentProps> {
 
 const icons: Record<IconName, any> = {
   telegram: Telegram,
+  avatar: Avatar,
 };
 
 export const ServiceIcon: React.FC<ServiceIconProps> = ({

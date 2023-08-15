@@ -1,7 +1,10 @@
+import React from 'react';
 import {
   FileImageOutlined,
   InfoCircleOutlined,
   LoginOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
   MessageOutlined,
   SettingOutlined,
   UserOutlined,
@@ -12,7 +15,12 @@ import type { MenuProps } from 'antd/es/menu';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-export const sidebarItems = (): MenuItem[] => [
+export const SidebarItems = (collapsed: boolean): MenuItem[] => [
+  {
+    label: '',
+    key: 'collapsed',
+    icon: collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />,
+  },
   {
     label: 'Профиль',
     key: 'profile',
