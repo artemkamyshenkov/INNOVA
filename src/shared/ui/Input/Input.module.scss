@@ -5,6 +5,7 @@
   transition: 0.4s;
   width: 100%;
   margin-bottom: 0.7rem;
+  border-radius: 6px;
   &:focus {
     border: 1px solid #1569c7;
     outline-width: 0;
@@ -15,4 +16,10 @@
   @include errorMessage;
   text-align: start;
   margin-bottom: 0.5rem;
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }

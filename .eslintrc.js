@@ -44,7 +44,10 @@ module.exports = {
     'react/prop-types': 'off',
     'implicit-arrow-linebreak': 'off',
     'operator-linebreak': 'off',
-    'max-len': ['error', { ignoreComments: true, code: 100 }],
+    'max-len': [
+      'error',
+      { ignoreComments: true, ignoreStrings: true, code: 100 },
+    ],
     'jsx-a11y/label-has-associated-control': [
       2,
       {

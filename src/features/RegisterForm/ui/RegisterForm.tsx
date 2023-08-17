@@ -1,11 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { Col, Row } from 'react-grid-system';
-import { Button, Space, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { ref, set } from 'firebase/database';
+import { useForm } from 'react-hook-form';
+import { Button, Space, Spin } from 'antd';
+import { Col, Row } from 'react-grid-system';
+import { Link, useNavigate } from 'react-router-dom';
 import { userActions } from '@/entities/User';
 import { useRegisterUserMutation } from '@/shared/api/authService';
+import { database } from '@/shared/config/firebase/firebaseConfig';
 import { firebaseError } from '@/shared/helpers/firebaseError';
 import { useAppDispatch } from '@/shared/hooks/redux';
 import { AuthError } from '@/shared/types/firebase';
@@ -13,7 +14,7 @@ import { Input } from '@/shared/ui/Input';
 import { ServiceIcon } from '@/shared/ui/ServiceIcon';
 import { RegisterFormData } from '../model/types';
 import styles from './RegisterForm.module.scss';
-import { database } from '@/shared/config/firebase/firebaseConfig';
+import { userService } from '@/shared/api/userService';
 
 export const RegisterForm = () => {
   const {
@@ -29,7 +30,13 @@ export const RegisterForm = () => {
   const password = watch('password', '');
   const confirmPassword = watch('confirmPassword', '');
 
-  const onSubmit = async ({ email, password, name }: RegisterFormData) => {
+  const onSubmit = async ({
+    email,
+    password,
+    firstName,
+    lastName,
+    username,
+  }: RegisterFormData) => {
     try {
       const user = await registerUser({
         email,
@@ -40,10 +47,15 @@ export const RegisterForm = () => {
         userActions.setAuthData({ id: user.localId, email: user.email }),
       );
       await set(ref(database, `users/${user.localId}`), {
-        firstName: name,
+        firstName,
+        lastName,
+        username,
         email,
         uid: user.localId,
       });
+
+      const currentUser = await userService.getCurrentUser(user.localId);
+      dispatch(userActions.setCurrentUser(currentUser));
 
       navigate('/', { replace: true });
     } catch (err) {
@@ -62,15 +74,38 @@ export const RegisterForm = () => {
           <form name="loginForm" onSubmit={handleSubmit(onSubmit)}>
             <Input
               label="Имя"
-              id="name"
+              id="firstName"
               register={register}
-              fieldName="name"
+              fieldName="firstName"
               rules={{
                 required: 'Поле обязательно к заполнению',
               }}
-              error={formErrors?.name?.message}
+              error={formErrors?.firstName?.message}
             />
-
+            <Input
+              label="Фамилия"
+              id="lastName"
+              register={register}
+              fieldName="lastName"
+              rules={{
+                required: 'Поле обязательно к заполнению',
+              }}
+              error={formErrors?.lastName?.message}
+            />
+            <Input
+              label="Имя пользователя"
+              id="username"
+              register={register}
+              fieldName="username"
+              rules={{
+                required: 'Поле обязательно к заполнению',
+                minLength: {
+                  value: 3,
+                  message: 'Минимум 3 символа',
+                },
+              }}
+              error={formErrors?.username?.message}
+            />
             <Input
               label="Электронная почта"
               id="email"
@@ -109,12 +144,10 @@ export const RegisterForm = () => {
                   value: 6,
                   message: 'Минимум 6 символов',
                 },
+                validate: value => value === password || 'Пароли не совпадают',
               }}
               error={formErrors?.confirmPassword?.message}
             />
-            {password !== confirmPassword && (
-              <p className={styles.passwordError}>Пароли не совпадают</p>
-            )}
             {error && (
               <p className={styles.error}>
                 {firebaseError(error as AuthError)}

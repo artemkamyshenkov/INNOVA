@@ -13,6 +13,7 @@ const initialState: UserSchema = {
     lastName: null,
     about: null,
     avatar: null,
+    username: null,
   },
 };
 
@@ -43,7 +44,7 @@ export const userSlice = createSlice({
         state.authData.email = currentUser?.email;
       }
     },
-    setCurrentuser: (state, action: PayloadAction<CurrentUser>) => {
+    setCurrentUser: (state, action: PayloadAction<CurrentUser>) => {
       state.user = action.payload;
     },
   },

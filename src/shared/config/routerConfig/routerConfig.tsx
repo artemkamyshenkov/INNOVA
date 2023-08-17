@@ -1,9 +1,9 @@
-import { Navigate, RouteProps } from 'react-router-dom';
-import { MainPage } from '@/screens/MainPage';
 import { AboutPage } from '@/screens/AboutPage';
-import { NotFoundPage } from '@/screens/NotFoundPage';
 import { LoginPage } from '@/screens/LoginPage';
+import { NotFoundPage } from '@/screens/NotFoundPage';
+import { ProfilePage } from '@/screens/ProfilePage';
 import { RegisterPage } from '@/screens/RegisterPage';
+import { Navigate } from 'react-router-dom';
 
 export enum AppRoutes {
   MAIN = 'main',
@@ -32,7 +32,7 @@ export const getRoutes = (isLoggedIn: boolean) => ({
   },
   [AppRoutes.MAIN]: {
     path: RoutePath.main,
-    element: isLoggedIn ? <MainPage /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <ProfilePage /> : <Navigate to="/login" />,
   },
   [AppRoutes.ABOUT]: {
     path: RoutePath.about,

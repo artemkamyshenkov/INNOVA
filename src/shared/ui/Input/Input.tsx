@@ -22,12 +22,14 @@ export const Input = <T extends unknown>({
 }: InputProps<T>) => (
   <>
     <label htmlFor={id}>{label}</label>
-    <input
-      {...register(fieldName, { ...rules })}
-      id={id}
-      className={styles.input}
-      {...props}
-    />
-    {error && <p className={styles.error}>{error || 'Ошибка'}</p>}
+    <div className={styles.inputContainer}>
+      <input
+        {...register(fieldName, { ...rules })}
+        id={id}
+        className={styles.input}
+        {...props}
+      />
+      {error && <p className={styles.error}>{error || 'Ошибка'}</p>}
+    </div>
   </>
 );
