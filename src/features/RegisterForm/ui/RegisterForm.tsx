@@ -144,12 +144,10 @@ export const RegisterForm = () => {
                   value: 6,
                   message: 'Минимум 6 символов',
                 },
+                validate: value => value === password || 'Пароли не совпадают',
               }}
               error={formErrors?.confirmPassword?.message}
             />
-            {password !== confirmPassword && (
-              <p className={styles.passwordError}>Пароли не совпадают</p>
-            )}
             {error && (
               <p className={styles.error}>
                 {firebaseError(error as AuthError)}
