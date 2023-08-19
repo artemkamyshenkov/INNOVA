@@ -48,16 +48,7 @@ module.exports = {
       'error',
       { ignoreComments: true, ignoreStrings: true, code: 100 },
     ],
-    'jsx-a11y/label-has-associated-control': [
-      2,
-      {
-        labelComponents: ['label'],
-        labelAttributes: ['inputLabel'],
-        controlComponents: ['input'],
-        assert: 'both',
-        depth: 3,
-      },
-    ],
+    'jsx-a11y/label-has-associated-control': 'off',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
   },
   globals: {

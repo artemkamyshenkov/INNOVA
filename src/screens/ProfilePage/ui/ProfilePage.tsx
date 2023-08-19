@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import cn from 'classnames';
 import { Col, Row } from 'react-grid-system';
-import { Button, Space, Typography, notification } from 'antd';
-import { EditOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Space, Typography, notification, Progress } from 'antd';
+import { EditOutlined, SaveOutlined } from '@ant-design/icons';
 import { useForm, Controller } from 'react-hook-form';
 import TextArea from 'antd/es/input/TextArea';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
@@ -12,20 +12,24 @@ import { PageLoader } from '@/shared/ui/PageLoader/PageLoader';
 import { Input } from '@/shared/ui/Input';
 import { userService } from '@/shared/api/userService';
 import { userActions } from '@/entities/User';
+import { InputFile } from '@/shared/ui/InputFile';
+import { fileService } from '@/shared/api/fileService';
 
 type Mode = 'view' | 'edit';
 
 export type ProfileData = {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  about: string;
+  firstName?: string;
+  lastName?: string;
+  username?: string;
+  email?: string;
+  about?: string;
+  avatarUrl?: string;
 };
 
 const ProfilePage = () => {
   const { user, authData } = useAppSelector(state => state.user);
   const [notify, contextHolder] = notification.useNotification();
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const {
     register,
@@ -43,9 +47,29 @@ const ProfilePage = () => {
   const [mode, setMode] = useState<Mode>('view');
   const dispatch = useAppDispatch();
 
-  const handleFileChange = (e: any) => {
-    const selectedFile = e.target.files[0];
-    console.log(selectedFile);
+  const handleUploadProgress = (progress: number) => {
+    setUploadProgress(progress);
+  };
+
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    try {
+      const selectedFile = e.target.files[0];
+      const avatarUrl = await fileService.uploadFile(
+        selectedFile,
+        authData?.id,
+        handleUploadProgress,
+      );
+      await userService.updateUser({ ...user, avatarUrl }, authData?.id);
+      const currentUser = await userService.getCurrentUser(authData?.id);
+      dispatch(userActions.setCurrentUser(currentUser));
+      setTimeout(() => {
+        setUploadProgress(0);
+      }, 2000);
+      notify.success({ message: 'Данные успешно обновлены' });
+    } catch (error) {
+      console.error(error);
+      notify.error({ message: error.message });
+    }
   };
 
   const handleEditProfile = () => {
@@ -54,7 +78,6 @@ const ProfilePage = () => {
 
   const onSubmit = async (data: ProfileData) => {
     try {
-      // TODO: сделать асинхронный экшен
       await userService.updateUser(data, authData?.id);
       const currentUser = await userService.getCurrentUser(authData?.id);
       dispatch(userActions.setCurrentUser(currentUser));
@@ -83,9 +106,13 @@ const ProfilePage = () => {
           <Col xl={12}>
             <form name="loginForm" onSubmit={handleSubmit(onSubmit)}>
               <Col className={styles.avatarContainer} xl={4}>
-                <img src={user?.avatar || Avatar} alt="avatar" />
+                <img src={user?.avatarUrl || Avatar} alt="avatar" />
               </Col>
-
+              {uploadProgress > 0 && (
+                <Col xl={4} className={styles.nameContainer}>
+                  <Progress percent={uploadProgress} />
+                </Col>
+              )}
               <Col
                 className={cn([styles.nameContainer, styles.nameContainerEdit])}
                 xl={4}
@@ -149,9 +176,9 @@ const ProfilePage = () => {
 
               <Col>
                 <Space>
-                  <Button icon={<UploadOutlined />} onChange={handleFileChange}>
+                  <InputFile onChange={handleFileChange}>
                     Обновить фото
-                  </Button>
+                  </InputFile>
                   <Button onClick={handleEditProfile} icon={<EditOutlined />}>
                     Редактировать профиль
                   </Button>
@@ -176,8 +203,13 @@ const ProfilePage = () => {
       <Row className={styles.profileContainer}>
         <Col xl={12}>
           <Col className={styles.avatarContainer} xl={4}>
-            <img src={user?.avatar || Avatar} alt="avatar" />
+            <img src={user?.avatarUrl || Avatar} alt="avatar" />
           </Col>
+          {uploadProgress > 0 && (
+            <Col xl={4} className={styles.nameContainer}>
+              <Progress percent={uploadProgress} />
+            </Col>
+          )}
           <Col className={styles.nameContainer} xl={4}>
             <Typography.Title level={4}>
               {user?.firstName} {user?.lastName}
@@ -198,9 +230,7 @@ const ProfilePage = () => {
           </Col>
           <Col>
             <Space>
-              <Button icon={<UploadOutlined />} onChange={handleFileChange}>
-                Обновить фото
-              </Button>
+              <InputFile onChange={handleFileChange}>Обновить фото</InputFile>
               <Button onClick={handleEditProfile} icon={<EditOutlined />}>
                 Редактировать профиль
               </Button>

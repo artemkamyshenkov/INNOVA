@@ -12,7 +12,7 @@ const initialState: UserSchema = {
     firstName: null,
     lastName: null,
     about: null,
-    avatar: null,
+    avatarUrl: null,
     username: null,
   },
 };

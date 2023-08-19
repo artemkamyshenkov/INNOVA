@@ -8,7 +8,7 @@ export interface CurrentUser {
   firstName: string;
   lastName?: string;
   about?: string;
-  avatar?: string;
+  avatarUrl?: string;
   username: string;
 }
 export interface UserSchema {
