@@ -8,7 +8,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      tsx: true,
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -44,6 +44,7 @@ module.exports = {
     'react/prop-types': 'off',
     'implicit-arrow-linebreak': 'off',
     'operator-linebreak': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     'max-len': [
       'error',
       { ignoreComments: true, ignoreStrings: true, code: 100 },

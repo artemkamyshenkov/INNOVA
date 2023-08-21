@@ -1,6 +1,5 @@
 import { getDatabase, ref, child, get, update } from 'firebase/database';
 import { CurrentUser } from '@/entities/User';
-import { ProfileData } from '@/screens/ProfilePage/ui/ProfilePage';
 
 export const userService = {
   getCurrentUser: async (userId: string): Promise<CurrentUser> => {
@@ -17,10 +16,10 @@ export const userService = {
       throw error;
     }
   },
-  updateUser: async (params: ProfileData, userId: string) => {
+  updateUser: async (params: CurrentUser, userId: string) => {
     try {
       const db = getDatabase();
-      const updates: { [key: string]: ProfileData } = {};
+      const updates: { [key: string]: CurrentUser } = {};
       updates[`/users/${userId}`] = params;
       return await update(ref(db), updates);
     } catch (error) {
