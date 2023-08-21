@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import cn from 'classnames';
 import { Col, Row } from 'react-grid-system';
-import { Button, Space, Progress } from 'antd';
+import { Button, Space } from 'antd';
 import { EditOutlined, SaveOutlined } from '@ant-design/icons';
 import { useForm, Controller } from 'react-hook-form';
 import TextArea from 'antd/es/input/TextArea';
@@ -10,13 +10,11 @@ import { useAppDispatch } from '@/shared/hooks/redux';
 import Avatar from '@/shared/icons/avatar.png';
 import styles from './UserProfile.module.scss';
 import { Input } from '@/shared/ui/Input';
-import { userService } from '@/shared/api/userService';
-import { AuthData, CurrentUser, userActions } from '@/entities/User';
+import { AuthData, CurrentUser, updateUser } from '@/entities/User';
 import { InputFile } from '@/shared/ui/InputFile';
 
 interface UserProfileEditProps {
   user: CurrentUser;
-  uploadProgress: number;
   authData: AuthData;
   onFileChange: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
   onEditProfile: () => void;
@@ -25,8 +23,6 @@ interface UserProfileEditProps {
 
 export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
   user,
-  uploadProgress,
-  authData,
   onEditProfile,
   onFileChange,
   notify,
@@ -46,10 +42,8 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
 
   const onSubmit = async (data: CurrentUser) => {
     try {
-      await userService.updateUser(data, authData?.id);
-      const currentUser = await userService.getCurrentUser(authData?.id);
+      dispatch(updateUser(data));
       onEditProfile();
-      dispatch(userActions.setCurrentUser(currentUser));
       notify.success({ message: 'Данные успешно обновлены' });
     } catch (error) {
       console.error(error);
@@ -64,11 +58,6 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
           <Col className={styles.avatarContainer} xl={4}>
             <img src={user?.avatarUrl || Avatar} alt="avatar" />
           </Col>
-          {uploadProgress > 0 && (
-            <Col xl={4} className={styles.nameContainer}>
-              <Progress percent={uploadProgress} />
-            </Col>
-          )}
           <Col
             className={cn([styles.nameContainer, styles.nameContainerEdit])}
             xl={4}

@@ -14,4 +14,6 @@ export interface CurrentUser {
 export interface UserSchema {
   authData?: AuthData;
   user?: CurrentUser;
+  loading?: boolean;
+  error?: string;
 }
