@@ -8,7 +8,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      tsx: true,
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -44,20 +44,12 @@ module.exports = {
     'react/prop-types': 'off',
     'implicit-arrow-linebreak': 'off',
     'operator-linebreak': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     'max-len': [
       'error',
       { ignoreComments: true, ignoreStrings: true, code: 100 },
     ],
-    'jsx-a11y/label-has-associated-control': [
-      2,
-      {
-        labelComponents: ['label'],
-        labelAttributes: ['inputLabel'],
-        controlComponents: ['input'],
-        assert: 'both',
-        depth: 3,
-      },
-    ],
+    'jsx-a11y/label-has-associated-control': 'off',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
   },
   globals: {

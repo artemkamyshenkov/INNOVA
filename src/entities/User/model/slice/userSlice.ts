@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthData, CurrentUser, UserSchema } from '../types/types';
 import { CURRENT_USER_SESSION } from '@/shared/constants';
+import { updateUser, updateUserAvatar } from '../actions/actions';
 
 const initialState: UserSchema = {
   authData: {
@@ -12,9 +13,11 @@ const initialState: UserSchema = {
     firstName: null,
     lastName: null,
     about: null,
-    avatar: null,
+    avatarUrl: null,
     username: null,
   },
+  loading: false,
+  error: '',
 };
 
 export const userSlice = createSlice({
@@ -47,6 +50,41 @@ export const userSlice = createSlice({
     setCurrentUser: (state, action: PayloadAction<CurrentUser>) => {
       state.user = action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(updateUser.pending.type, state => {
+        state.loading = true;
+        state.error = '';
+      })
+      .addCase(
+        updateUser.fulfilled.type,
+        (state, action: PayloadAction<CurrentUser>) => {
+          state.loading = false;
+          state.user = action.payload;
+          state.error = '';
+        },
+      )
+      .addCase(updateUser.rejected.type, state => {
+        state.loading = false;
+        state.error = '';
+      })
+      .addCase(updateUserAvatar.pending.type, state => {
+        state.loading = true;
+        state.error = '';
+      })
+      .addCase(
+        updateUserAvatar.fulfilled.type,
+        (state, action: PayloadAction<CurrentUser>) => {
+          state.loading = false;
+          state.user = action.payload;
+          state.error = '';
+        },
+      )
+      .addCase(updateUserAvatar.rejected.type, state => {
+        state.loading = false;
+        state.error = '';
+      });
   },
 });
 
