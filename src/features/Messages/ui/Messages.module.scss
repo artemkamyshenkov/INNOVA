@@ -1,0 +1,40 @@
+.messagesConteiner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.messageInputForm {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.messageInput {
+  flex-grow: 1;
+  margin-bottom: 0;
+  padding: 0.4rem 1rem;
+}
+
+.messagesList {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  background-color: var(--white-color);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  max-width: 70%;
+  overflow-wrap: break-word;
+  margin-bottom: 0.8rem;
+}
+
+.messageMe {
+  align-self: flex-start;
+}
+
+.messageOther {
+  align-self: flex-end;
+}

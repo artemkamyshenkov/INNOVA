@@ -1,9 +1,10 @@
+import { Navigate } from 'react-router-dom';
 import { AboutPage } from '@/screens/AboutPage';
 import { LoginPage } from '@/screens/LoginPage';
 import { NotFoundPage } from '@/screens/NotFoundPage';
 import { ProfilePage } from '@/screens/ProfilePage';
 import { RegisterPage } from '@/screens/RegisterPage';
-import { Navigate } from 'react-router-dom';
+import { MessagesPage } from '@/screens/MessagesPage';
 
 export enum AppRoutes {
   MAIN = 'main',
@@ -11,6 +12,7 @@ export enum AppRoutes {
   NOT_FOUND = 'not_found',
   LOGIN = 'login',
   REGISTER = 'register',
+  MESSAGES = 'messages',
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -18,6 +20,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.ABOUT]: '/about',
   [AppRoutes.LOGIN]: '/login',
   [AppRoutes.REGISTER]: '/register',
+  [AppRoutes.MESSAGES]: '/messages',
   [AppRoutes.NOT_FOUND]: '*',
 };
 
@@ -41,5 +44,9 @@ export const getRoutes = (isLoggedIn: boolean) => ({
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath.not_found,
     element: <NotFoundPage />,
+  },
+  [AppRoutes.MESSAGES]: {
+    path: RoutePath.messages,
+    element: <MessagesPage />,
   },
 });
