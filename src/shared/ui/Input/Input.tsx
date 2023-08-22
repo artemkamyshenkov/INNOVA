@@ -1,4 +1,5 @@
 import { InputHTMLAttributes } from 'react';
+import cn from 'classnames';
 import { Path, UseFormRegister, RegisterOptions } from 'react-hook-form';
 import styles from './Input.module.scss';
 
@@ -18,6 +19,7 @@ export const Input = <T extends unknown>({
   rules = {},
   label,
   error,
+  className,
   ...props
 }: InputProps<T>) => (
   <>
@@ -26,7 +28,7 @@ export const Input = <T extends unknown>({
       <input
         {...register(fieldName, { ...rules })}
         id={id}
-        className={styles.input}
+        className={cn(styles.input, className)}
         {...props}
       />
       {error && <p className={styles.error}>{error || 'Ошибка'}</p>}
