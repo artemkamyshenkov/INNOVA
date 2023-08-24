@@ -16,7 +16,6 @@ export function buildPlugins({
       template: paths.html,
       title: 'Innova',
     }),
-    new FaviconsWebpackPlugin('public/favicon.ico'),
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
@@ -30,15 +29,22 @@ export function buildPlugins({
         postcss: [autoprefixer()],
       },
     }),
+    new Dotenv(),
   ];
   if (isDev) {
     plugins.push(new webpack.HotModuleReplacementPlugin());
     plugins.push(
       new BundleAnalyzerPlugin({
         openAnalyzer: false,
+        analyzerPort: 8000,
       }),
     );
-    plugins.push(new Dotenv());
+
+    plugins.push(
+      new FaviconsWebpackPlugin({
+        logo: paths.favicon,
+      }),
+    );
   }
 
   return plugins;
