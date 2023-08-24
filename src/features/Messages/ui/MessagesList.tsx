@@ -4,6 +4,7 @@ import styles from './Messages.module.scss';
 import { useSocket } from '@/app/providers/socketProvider/SocketProvider';
 import { MessageData } from '../model/types/types';
 import { useAuth } from '@/shared/hooks/useAuth';
+import { Image } from 'antd';
 
 export const MessagesList = () => {
   const [messages, setMessages] = useState<MessageData[]>([]);
@@ -17,14 +18,17 @@ export const MessagesList = () => {
 
   return (
     <div className={styles.messagesList}>
-      {messages.map(({ message, id, sender, senderId }) => (
+      {messages.map(({ message, id, sender, senderId, file }) => (
         <div
           key={id}
           className={cn(
             styles.message,
             userId === senderId ? styles.messageMe : styles.messageOther,
           )}
-        >{`${sender}: ${message}`}</div>
+        >
+          <p>{`${sender}: ${message}`}</p>
+          {file && <Image src={file} alt="file" width={200} />}
+        </div>
       ))}
     </div>
   );

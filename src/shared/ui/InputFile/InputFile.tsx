@@ -1,14 +1,17 @@
 import React, { InputHTMLAttributes } from 'react';
 import styles from './InputFile.module.scss';
 
-interface InputFileProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface InputFileProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+}
 
 export const InputFile: React.FC<InputFileProps> = ({
   accept = 'image/png, image/jpeg',
   onChange,
+  label = 'Выберите файл',
 }) => (
   <label className={styles.label}>
-    Выберите файл
+    {label}
     <input
       type="file"
       accept={accept}

@@ -4,7 +4,7 @@ import styles from './MessagesPage.module.scss';
 import { Messages } from '@/features/Messages';
 
 const MessagesPage = () => (
-  <Row>
+  <Row className={styles.messagesWrapper}>
     <Col className={styles.messagesContainer}>
       <Messages />
     </Col>
