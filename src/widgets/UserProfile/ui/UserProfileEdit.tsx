@@ -42,7 +42,7 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
 
   const onSubmit = async (data: CurrentUser) => {
     try {
-      dispatch(updateUser(data));
+      await dispatch(updateUser(data));
       onEditProfile();
       notify.success({ message: 'Данные успешно обновлены' });
     } catch (error) {
