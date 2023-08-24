@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
+import { Image } from 'antd';
 import styles from './Messages.module.scss';
 import { useSocket } from '@/app/providers/socketProvider/SocketProvider';
 import { MessageData } from '../model/types/types';
 import { useAuth } from '@/shared/hooks/useAuth';
-import { Image } from 'antd';
 
 export const MessagesList = () => {
   const [messages, setMessages] = useState<MessageData[]>([]);
