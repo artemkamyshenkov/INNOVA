@@ -1,7 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthData, CurrentUser, UserSchema } from '../types/types';
 import { CURRENT_USER_SESSION } from '@/shared/constants';
-import { updateUser, updateUserAvatar } from '../actions/actions';
+import {
+  getCurrentUser,
+  updateUser,
+  updateUserAvatar,
+} from '../actions/actions';
 
 const initialState: UserSchema = {
   authData: {
@@ -82,6 +86,22 @@ export const userSlice = createSlice({
         },
       )
       .addCase(updateUserAvatar.rejected.type, state => {
+        state.loading = false;
+        state.error = '';
+      })
+      .addCase(getCurrentUser.pending.type, state => {
+        state.loading = true;
+        state.error = '';
+      })
+      .addCase(
+        getCurrentUser.fulfilled.type,
+        (state, action: PayloadAction<CurrentUser>) => {
+          state.loading = false;
+          state.user = action.payload;
+          state.error = '';
+        },
+      )
+      .addCase(getCurrentUser.rejected.type, state => {
         state.loading = false;
         state.error = '';
       });

@@ -29,6 +29,7 @@ const ProfilePage = () => {
     setMode(mode === 'view' ? 'edit' : 'view');
   };
 
+  // TODO: добавить страниу выхода после 5 секунд загрузки
   if (!user?.email || !user?.username) {
     return <PageLoader />;
   }

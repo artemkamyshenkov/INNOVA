@@ -32,7 +32,6 @@ export const MessageInput = () => {
     if (selectedFile) {
       reader.onload = event => {
         const photoData = event.target.result;
-        console.log(photoData);
         socket.emit('send_message', {
           message: '',
           id: nanoid(),
@@ -58,6 +57,7 @@ export const MessageInput = () => {
         className={styles.messageInput}
         rules={{ required: true }}
         autoComplete="off"
+        placeholder="Введите сообщение..."
       />
       <InputFile label="Фото" onChange={handleSendPhoto} />
       <Button htmlType="submit">Отправить</Button>

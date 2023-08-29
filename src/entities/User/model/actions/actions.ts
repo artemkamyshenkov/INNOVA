@@ -35,3 +35,16 @@ export const updateUserAvatar = createAsyncThunk<
     return rejectWithValue((e as Error).message);
   }
 });
+
+export const getCurrentUser = createAsyncThunk<
+  CurrentUser,
+  string,
+  ThunkApiState
+>('user/getCurrentUser', async (userId, { rejectWithValue }) => {
+  try {
+    const currentUser = await userService.getCurrentUser(userId);
+    return currentUser;
+  } catch (e) {
+    return rejectWithValue((e as Error).message);
+  }
+});
