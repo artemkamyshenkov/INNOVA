@@ -28,11 +28,21 @@ export const updateUserAvatar = createAsyncThunk<
   try {
     const { user } = getState();
     const avatarUrl = await fileService.uploadFile(file, user?.authData?.id);
-    await userService.updateUser(
-      { ...user?.user, avatarUrl },
-      user?.authData?.id,
-    );
+    await userService.updateUserAvatar(avatarUrl, user?.authData?.id);
     const currentUser = await userService.getCurrentUser(user?.authData?.id);
+    return currentUser;
+  } catch (e) {
+    return rejectWithValue((e as Error).message);
+  }
+});
+
+export const getCurrentUser = createAsyncThunk<
+  CurrentUser,
+  string,
+  ThunkApiState
+>('user/getCurrentUser', async (userId, { rejectWithValue }) => {
+  try {
+    const currentUser = await userService.getCurrentUser(userId);
     return currentUser;
   } catch (e) {
     return rejectWithValue((e as Error).message);

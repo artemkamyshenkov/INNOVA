@@ -47,6 +47,6 @@ export const getRoutes = (isLoggedIn: boolean) => ({
   },
   [AppRoutes.MESSAGES]: {
     path: RoutePath.messages,
-    element: <MessagesPage />,
+    element: isLoggedIn ? <MessagesPage /> : <Navigate to="/login" />,
   },
 });

@@ -19,9 +19,27 @@ export const userService = {
   updateUser: async (params: CurrentUser, userId: string) => {
     try {
       const db = getDatabase();
-      const updates: { [key: string]: CurrentUser } = {};
-      updates[`/users/${userId}`] = params;
-      return await update(ref(db), updates);
+      const { lastName, firstName, email, about, avatarUrl } = params;
+      return await update(ref(db, `/users/${userId}`), {
+        lastName,
+        firstName,
+        email,
+        about,
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+  updateUserAvatar: async (
+    avatarUrl: CurrentUser['avatarUrl'],
+    userId: string,
+  ) => {
+    try {
+      const db = getDatabase();
+      return await update(ref(db, `/users/${userId}`), {
+        avatarUrl,
+      });
     } catch (error) {
       console.error(error);
       throw error;

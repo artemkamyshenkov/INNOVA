@@ -42,7 +42,7 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
 
   const onSubmit = async (data: CurrentUser) => {
     try {
-      dispatch(updateUser(data));
+      await dispatch(updateUser(data));
       onEditProfile();
       notify.success({ message: 'Данные успешно обновлены' });
     } catch (error) {
@@ -60,7 +60,7 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
           </Col>
           <Col
             className={cn([styles.nameContainer, styles.nameContainerEdit])}
-            xl={4}
+            xl={8}
           >
             <Input
               defaultValue={user?.firstName || ''}
@@ -93,7 +93,7 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
               error={formError?.username?.message}
             />
           </Col>
-          <Col xl={2} className={styles.fieldContainer}>
+          <Col xl={4} className={styles.fieldContainer}>
             <Input
               defaultValue={user?.email || ''}
               id="email"

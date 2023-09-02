@@ -3,4 +3,5 @@ export interface MessageData {
   id: string;
   sender: string;
   senderId: string;
+  file?: string;
 }

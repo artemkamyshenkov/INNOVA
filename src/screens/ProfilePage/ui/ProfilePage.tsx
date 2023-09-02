@@ -16,9 +16,8 @@ const ProfilePage = () => {
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
-      // TODO: проверить работу
       const selectedFile = e.target.files[0];
-      dispatch(updateUserAvatar(selectedFile));
+      await dispatch(updateUserAvatar(selectedFile));
       notify.success({ message: 'Данные успешно обновлены' });
     } catch (error) {
       console.error(error);
@@ -30,6 +29,7 @@ const ProfilePage = () => {
     setMode(mode === 'view' ? 'edit' : 'view');
   };
 
+  // TODO: добавить страниу выхода после 5 секунд загрузки
   if (!user?.email || !user?.username) {
     return <PageLoader />;
   }
