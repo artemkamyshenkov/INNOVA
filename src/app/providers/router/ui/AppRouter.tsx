@@ -1,25 +1,29 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useCallback } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { getRoutes } from '@/shared/config/routerConfig/routerConfig';
+import {
+  AppRoutesProps,
+  routeConfig,
+} from '@/shared/config/routerConfig/routerConfig';
 import { PageLoader } from '@/shared/ui/PageLoader/PageLoader';
+import { RequireAuth } from './RequireAuth';
 
-interface AppRouterProps {
-  isLoggedIn: boolean;
-}
-const AppRouter: React.FC<AppRouterProps> = ({ isLoggedIn }) => {
-  const routeConfig = getRoutes(isLoggedIn);
+const AppRouter = () => {
+  const renderWithWrapper = useCallback((route: AppRoutesProps) => {
+    const element = (
+      <Suspense fallback={<PageLoader />}>{route.element}</Suspense>
+    );
+    return (
+      <Route
+        key={route.path}
+        path={route.path}
+        element={
+          route.authOnly ? <RequireAuth>{element}</RequireAuth> : element
+        }
+      />
+    );
+  }, []);
 
-  return (
-    <Routes>
-      {Object.values(routeConfig).map(({ element, path }) => (
-        <Route
-          key={path}
-          path={path}
-          element={<Suspense fallback={<PageLoader />}>{element}</Suspense>}
-        />
-      ))}
-    </Routes>
-  );
+  return <Routes>{Object.values(routeConfig).map(renderWithWrapper)}</Routes>;
 };
 
 export default AppRouter;

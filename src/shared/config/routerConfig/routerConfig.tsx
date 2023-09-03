@@ -1,10 +1,14 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, RouteProps } from 'react-router-dom';
 import { AboutPage } from '@/screens/AboutPage';
 import { LoginPage } from '@/screens/LoginPage';
 import { NotFoundPage } from '@/screens/NotFoundPage';
 import { ProfilePage } from '@/screens/ProfilePage';
 import { RegisterPage } from '@/screens/RegisterPage';
 import { MessagesPage } from '@/screens/MessagesPage';
+
+export type AppRoutesProps = RouteProps & {
+  authOnly?: boolean;
+};
 
 export enum AppRoutes {
   MAIN = 'main',
@@ -24,22 +28,24 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.NOT_FOUND]: '*',
 };
 
-export const getRoutes = (isLoggedIn: boolean) => ({
+export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
+  [AppRoutes.MAIN]: {
+    path: RoutePath.main,
+    element: <ProfilePage />,
+    authOnly: true,
+  },
   [AppRoutes.LOGIN]: {
     path: RoutePath.login,
-    element: !isLoggedIn ? <LoginPage /> : <Navigate to="/" />,
+    element: <LoginPage />,
   },
   [AppRoutes.REGISTER]: {
     path: RoutePath.register,
-    element: !isLoggedIn ? <RegisterPage /> : <Navigate to="/" />,
-  },
-  [AppRoutes.MAIN]: {
-    path: RoutePath.main,
-    element: isLoggedIn ? <ProfilePage /> : <Navigate to="/login" />,
+    element: <RegisterPage />,
   },
   [AppRoutes.ABOUT]: {
     path: RoutePath.about,
-    element: isLoggedIn ? <AboutPage /> : <Navigate to="/login" />,
+    element: <AboutPage />,
+    authOnly: true,
   },
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath.not_found,
@@ -47,6 +53,7 @@ export const getRoutes = (isLoggedIn: boolean) => ({
   },
   [AppRoutes.MESSAGES]: {
     path: RoutePath.messages,
-    element: isLoggedIn ? <MessagesPage /> : <Navigate to="/login" />,
+    element: <MessagesPage />,
+    authOnly: true,
   },
-});
+};
