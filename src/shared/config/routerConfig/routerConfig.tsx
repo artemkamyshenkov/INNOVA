@@ -5,6 +5,7 @@ import { NotFoundPage } from '@/screens/NotFoundPage';
 import { ProfilePage } from '@/screens/ProfilePage';
 import { RegisterPage } from '@/screens/RegisterPage';
 import { MessagesPage } from '@/screens/MessagesPage';
+import { MediaPage } from '@/screens/MediaPage';
 
 export type AppRoutesProps = RouteProps & {
   authOnly?: boolean;
@@ -17,6 +18,7 @@ export enum AppRoutes {
   LOGIN = 'login',
   REGISTER = 'register',
   MESSAGES = 'messages',
+  MEDIA = 'media',
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -25,6 +27,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.LOGIN]: '/login',
   [AppRoutes.REGISTER]: '/register',
   [AppRoutes.MESSAGES]: '/messages',
+  [AppRoutes.MEDIA]: '/media',
   [AppRoutes.NOT_FOUND]: '*',
 };
 
@@ -54,6 +57,11 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
   [AppRoutes.MESSAGES]: {
     path: RoutePath.messages,
     element: <MessagesPage />,
+    authOnly: true,
+  },
+  [AppRoutes.MEDIA]: {
+    path: RoutePath.media,
+    element: <MediaPage />,
     authOnly: true,
   },
 };

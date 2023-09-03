@@ -12,48 +12,49 @@ import {
 } from '@ant-design/icons';
 
 import type { MenuProps } from 'antd/es/menu';
+import { MENU_ITEMS } from '../config/constants';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 export const SidebarItems = (collapsed: boolean): MenuItem[] => [
   {
     label: '',
-    key: 'collapsed',
+    key: MENU_ITEMS.COLLAPSED,
     icon: collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />,
   },
   {
     label: 'Профиль',
-    key: 'profile',
+    key: MENU_ITEMS.PROFILE,
     icon: <UserOutlined />,
   },
   {
     label: 'Сообщения',
-    key: 'messages',
+    key: MENU_ITEMS.MESSAGES,
     icon: <MessageOutlined />,
   },
   {
     label: 'Медиа',
-    key: 'media',
+    key: MENU_ITEMS.MEDIA,
     icon: <FileImageOutlined />,
   },
   {
     label: 'Настройки',
-    key: 'setting',
+    key: MENU_ITEMS.SETTING,
     icon: <SettingOutlined />,
   },
   {
     label: 'Контакты',
-    key: 'contsct',
+    key: MENU_ITEMS.CONTACT,
     icon: <UsergroupAddOutlined />,
   },
   {
     label: 'О нас',
-    key: 'about',
+    key: MENU_ITEMS.ABOUT,
     icon: <InfoCircleOutlined />,
   },
   {
     label: 'Выйти',
-    key: 'logout',
+    key: MENU_ITEMS.LOGOUT,
     icon: <LoginOutlined />,
   },
 ];
