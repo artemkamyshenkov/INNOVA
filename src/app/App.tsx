@@ -14,6 +14,7 @@ export const App = () => {
   const { user, authData } = useAppSelector(state => state.user);
   const { theme } = useTheme();
   const { isLoggedIn } = useAuth();
+  const { inited } = useAppSelector(state => state.user.authData);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export const App = () => {
     <Layout className={cn('app', theme)}>
       <Layout.Content className="content">
         {isLoggedIn && <Sidebar />}
-        <AppRouter isLoggedIn={isLoggedIn} />
+        {inited && <AppRouter />}
       </Layout.Content>
     </Layout>
   );

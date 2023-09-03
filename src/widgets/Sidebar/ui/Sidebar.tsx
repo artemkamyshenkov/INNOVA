@@ -6,6 +6,7 @@ import styles from './Sidebar.module.scss';
 import { useAppDispatch } from '@/shared/hooks/redux';
 import { userActions } from '@/entities/User';
 import { RoutePath } from '@/shared/config/routerConfig';
+import { MENU_ITEMS } from '../config/constants';
 
 export const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -17,21 +18,24 @@ export const Sidebar = () => {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
-  // TODO: в константы
+
   const handleClickItem = (key: string) => {
     switch (key) {
-      case 'logout':
+      case MENU_ITEMS.LOGOUT:
         dispatch(userActions.logOut());
         navigate('/login');
         break;
-      case 'collapsed':
+      case MENU_ITEMS.COLLAPSED:
         toggleCollapsed();
         break;
-      case 'messages':
+      case MENU_ITEMS.MESSAGES:
         navigate(RoutePath.messages);
         break;
-      case 'profile':
+      case MENU_ITEMS.PROFILE:
         navigate(RoutePath.main);
+        break;
+      case MENU_ITEMS.MEDIA:
+        navigate(RoutePath.media);
         break;
       default:
         return '';

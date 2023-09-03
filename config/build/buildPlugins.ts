@@ -5,6 +5,7 @@ import webpack from 'webpack';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import Dotenv from 'dotenv-webpack';
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { BuildOptions } from './types/config';
 
 export function buildPlugins({
@@ -32,6 +33,7 @@ export function buildPlugins({
     new Dotenv(),
   ];
   if (isDev) {
+    plugins.push(new ReactRefreshWebpackPlugin());
     plugins.push(new webpack.HotModuleReplacementPlugin());
     plugins.push(
       new BundleAnalyzerPlugin({
@@ -47,5 +49,5 @@ export function buildPlugins({
     );
   }
 
-  return plugins;
+  return plugins.filter(Boolean);
 }

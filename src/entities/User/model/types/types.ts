@@ -1,6 +1,7 @@
 export interface AuthData {
   id: string;
   email: string;
+  inited?: boolean;
 }
 
 export interface CurrentUser {

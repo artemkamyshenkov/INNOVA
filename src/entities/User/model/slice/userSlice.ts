@@ -11,6 +11,7 @@ const initialState: UserSchema = {
   authData: {
     id: null,
     email: null,
+    inited: false,
   },
   user: {
     email: null,
@@ -45,14 +46,15 @@ export const userSlice = createSlice({
       const currentUser = JSON.parse(
         localStorage.getItem(CURRENT_USER_SESSION),
       );
-
       if (currentUser?.id) {
         state.authData.id = currentUser?.id;
         state.authData.email = currentUser?.email;
       }
+      state.authData.inited = true;
     },
     setCurrentUser: (state, action: PayloadAction<CurrentUser>) => {
       state.user = action.payload;
+      state.authData.inited = true;
     },
   },
   extraReducers: builder => {
@@ -99,12 +101,16 @@ export const userSlice = createSlice({
           state.loading = false;
           state.user = action.payload;
           state.error = '';
+          state.authData.inited = true;
         },
       )
-      .addCase(getCurrentUser.rejected.type, state => {
-        state.loading = false;
-        state.error = '';
-      });
+      .addCase(
+        getCurrentUser.rejected.type,
+        (state, action: PayloadAction<string>) => {
+          state.loading = false;
+          state.error = action.payload;
+        },
+      );
   },
 });
 

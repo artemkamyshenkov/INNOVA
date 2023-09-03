@@ -1,12 +1,14 @@
-import React from 'react';
 import { Container } from 'react-grid-system';
 import { LoginForm } from '@/features/LoginForm';
 import styles from './LoginPage.module.scss';
+import { Page } from '@/shared/ui/Page';
 
 const LoginPage = () => (
-  <Container className={styles.formContainer}>
-    <LoginForm />
-  </Container>
+  <Page>
+    <Container className={styles.formContainer}>
+      <LoginForm />
+    </Container>
+  </Page>
 );
 
 export default LoginPage;

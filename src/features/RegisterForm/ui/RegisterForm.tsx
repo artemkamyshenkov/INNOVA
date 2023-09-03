@@ -44,7 +44,11 @@ export const RegisterForm = () => {
         returnSecureToken: true,
       }).unwrap();
       dispatch(
-        userActions.setAuthData({ id: user.localId, email: user.email }),
+        userActions.setAuthData({
+          id: user.localId,
+          email: user.email,
+          inited: true,
+        }),
       );
       await set(ref(database, `users/${user.localId}`), {
         firstName,
