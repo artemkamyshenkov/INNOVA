@@ -15,11 +15,7 @@ const AppRouter: React.FC<AppRouterProps> = ({ isLoggedIn }) => {
         <Route
           key={path}
           path={path}
-          element={
-            <Suspense fallback={<PageLoader />}>
-              <div className="pageWrapper">{element}</div>
-            </Suspense>
-          }
+          element={<Suspense fallback={<PageLoader />}>{element}</Suspense>}
         />
       ))}
     </Routes>

@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from 'react';
 import { Skeleton, notification } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
-import { PageLoader } from '@/shared/ui/PageLoader/PageLoader';
 import { updateUserAvatar } from '@/entities/User';
 import { UserProfileEdit } from '@/widgets/UserProfile';
 import { UserProfileView } from '@/widgets/UserProfile/ui/UserProfileView';
+import { Page } from '@/shared/ui/Page';
 
 type Mode = 'view' | 'edit';
 
@@ -29,17 +29,12 @@ const ProfilePage = () => {
     setMode(mode === 'view' ? 'edit' : 'view');
   };
 
-  // TODO: добавить страниу выхода после 5 секунд загрузки
-  if (!user?.email || !user?.username) {
-    return <PageLoader />;
-  }
-
   if (loading) {
     return <Skeleton />;
   }
 
   return (
-    <>
+    <Page>
       {contextHolder}
       {mode === 'view' ? (
         <UserProfileView
@@ -57,7 +52,7 @@ const ProfilePage = () => {
           notify={notify}
         />
       )}
-    </>
+    </Page>
   );
 };
 
