@@ -1,19 +1,22 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { UNSPLASH_API_KEY } from '../config/unsplash';
+import { CAT_API_KEY } from '../config/media';
+import { PhotoCatTypes } from '@/widgets/Photo/types';
 
 export const mediaApi = createApi({
   reducerPath: 'mediaApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.unsplash.com/',
+    baseUrl: 'https://api.thecatapi.com/v1/images/',
   }),
   endpoints: builder => ({
-    getPhotos: builder.query<any, any>({
-      query: page => ({
-        url: 'photos?',
-        headers: { Authorization: `Client-ID ${UNSPLASH_API_KEY}` },
-        params: { page, per_page: 15 },
+    getPhotos: builder.query<PhotoCatTypes[], number>({
+      query: limit => ({
+        url: 'search',
+        headers: { 'x-api-key': CAT_API_KEY },
+        params: { limit },
         method: 'GET',
       }),
+      transformResponse: (response: PhotoCatTypes[]) =>
+        response.filter(photo => photo.url !== null),
     }),
   }),
 });
