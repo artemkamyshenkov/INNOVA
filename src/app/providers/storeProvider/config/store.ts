@@ -3,12 +3,13 @@ import { userReducer } from '@/entities/User';
 import { StateSchema } from './StateSchema';
 
 import { authApi } from '@/shared/api/authService';
-import { mediaApi } from '@/shared/api/mediaService';
+import { mediaApi, unsplashApi } from '@/shared/api/mediaService';
 
 const rootReducers = {
   user: userReducer,
   [authApi.reducerPath]: authApi.reducer,
   [mediaApi.reducerPath]: mediaApi.reducer,
+  [unsplashApi.reducerPath]: unsplashApi.reducer,
 };
 const store = configureStore<StateSchema>({
   reducer: rootReducers,
@@ -17,6 +18,7 @@ const store = configureStore<StateSchema>({
     getDefaultMiddleware().concat(
       authApi.middleware,
       mediaApi.middleware,
+      unsplashApi.middleware,
     ) as any,
 });
 
