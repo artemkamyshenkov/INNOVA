@@ -10,10 +10,10 @@ export const mediaApi = createApi({
   tagTypes: ['Photos'],
   endpoints: builder => ({
     getPhotos: builder.query<PhotoCatTypes[], number>({
-      query: limit => ({
+      query: page => ({
         url: 'search',
         headers: { 'x-api-key': CAT_API_KEY },
-        params: { limit },
+        params: { limit: 5, page },
         method: 'GET',
       }),
       providesTags: () => ['Photos'],

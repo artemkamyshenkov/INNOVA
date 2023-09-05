@@ -7,13 +7,15 @@ import { Page } from '@/shared/ui/Page';
 
 const MediaPage = () => {
   const [photos, setPhotos] = useState([]);
-  const [limit, setLimit] = useState(5);
+  const [page, setPage] = useState(1);
 
-  const { data, isLoading, refetch, isFetching } = useGetPhotosQuery(limit);
+  const { data, isLoading, isFetching } = useGetPhotosQuery(page);
 
-  const onLoadNextPhoto = useCallback(async () => {
-    await refetch();
-  }, [refetch]);
+  const onLoadNextPhoto = useCallback(() => {
+    if (!isFetching) {
+      setPage(prevPage => prevPage + 1);
+    }
+  }, [isFetching]);
 
   useEffect(() => {
     if (!isLoading && data) {
