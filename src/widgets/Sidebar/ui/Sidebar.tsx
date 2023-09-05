@@ -37,6 +37,9 @@ export const Sidebar = () => {
       case MENU_ITEMS.MEDIA:
         navigate(RoutePath.media);
         break;
+      case MENU_ITEMS.RECOMMENDED:
+        navigate(RoutePath.recommended);
+        break;
       default:
         return '';
     }

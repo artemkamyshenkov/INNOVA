@@ -9,7 +9,7 @@ interface PhotoProps {
 
 export const Photo: React.FC<PhotoProps> = ({ photoData }) => (
   <Image
-    src={photoData.url}
+    src={photoData?.url}
     width={500}
     height={500}
     className={styles.photoContainer}
