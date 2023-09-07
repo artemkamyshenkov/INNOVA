@@ -51,18 +51,13 @@ const RecommendUsers = () => {
                   <div style={style}>
                     <FriendProfile
                       profile={profileWithAva[index]}
-                      // key={profiles[index].id}
+                      key={profiles[index]?.id}
                     />
                   </div>
                 )}
               </List>
             )}
           </AutoSizer>
-          // <Row direction="column" align="center">
-          //   {profiles.map(profile => (
-          //     <FriendProfile profile={profile} key={profile.id} />
-          //   ))}
-          // </Row>
         )}
       </Page>
     </>
