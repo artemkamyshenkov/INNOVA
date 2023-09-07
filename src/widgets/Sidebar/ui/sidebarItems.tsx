@@ -43,8 +43,8 @@ export const SidebarItems = (collapsed: boolean): MenuItem[] => [
     icon: <SettingOutlined />,
   },
   {
-    label: 'Контакты',
-    key: MENU_ITEMS.CONTACT,
+    label: 'Рекомендованные профили',
+    key: MENU_ITEMS.RECOMMENDED,
     icon: <UsergroupAddOutlined />,
   },
   {

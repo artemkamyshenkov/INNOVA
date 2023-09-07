@@ -6,6 +6,7 @@ import { ProfilePage } from '@/screens/ProfilePage';
 import { RegisterPage } from '@/screens/RegisterPage';
 import { MessagesPage } from '@/screens/MessagesPage';
 import { MediaPage } from '@/screens/MediaPage';
+import { RecommendUsers } from '@/screens/RecommendUsers';
 
 export type AppRoutesProps = RouteProps & {
   authOnly?: boolean;
@@ -19,6 +20,7 @@ export enum AppRoutes {
   REGISTER = 'register',
   MESSAGES = 'messages',
   MEDIA = 'media',
+  RECOMMENDED = 'recommended',
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -28,6 +30,7 @@ export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.REGISTER]: '/register',
   [AppRoutes.MESSAGES]: '/messages',
   [AppRoutes.MEDIA]: '/media',
+  [AppRoutes.RECOMMENDED]: '/recommended',
   [AppRoutes.NOT_FOUND]: '*',
 };
 
@@ -62,6 +65,11 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
   [AppRoutes.MEDIA]: {
     path: RoutePath.media,
     element: <MediaPage />,
+    authOnly: true,
+  },
+  [AppRoutes.RECOMMENDED]: {
+    path: RoutePath.recommended,
+    element: <RecommendUsers />,
     authOnly: true,
   },
 };
