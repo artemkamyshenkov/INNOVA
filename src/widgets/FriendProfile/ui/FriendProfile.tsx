@@ -10,9 +10,9 @@ interface FriendProfileProps {
   profile: FriendProfileTypes;
 }
 
-// TODO: рандомные авы
 export const FriendProfile: React.FC<FriendProfileProps> = ({ profile }) => {
   const [notify, contextHolder] = notification.useNotification();
+
   const copyText = async (text: string) => {
     try {
       await clipboardApi.copyText(text);
@@ -27,7 +27,7 @@ export const FriendProfile: React.FC<FriendProfileProps> = ({ profile }) => {
       {contextHolder}
       <Col xl={16} className={styles.profileContainer}>
         <Col className={styles.avatarContainer} xl={12}>
-          <img src={Avatar} alt="avatar" />
+          <img src={profile.image || Avatar} alt="avatar" />
         </Col>
         <Col className={styles.nameContainer} xl={12}>
           <Tooltip title="Копировать" placement="right">

@@ -1,4 +1,3 @@
-import { Row } from 'react-grid-system';
 import { Typography, notification } from 'antd';
 import { useEffect } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -8,11 +7,17 @@ import { Page } from '@/shared/ui/Page';
 import { PageLoader } from '@/shared/ui/PageLoader/PageLoader';
 import { FriendProfile } from '@/widgets/FriendProfile';
 import styles from './RecommendUsers.module.scss';
+import { randomAvatar } from '@/shared/helpers/randomAvatar';
 
 const RecommendUsers = () => {
   const { data, isLoading, isError } = useGetFriendsQuery('');
   const { data: profiles = [], total = 0 } = data || {};
   const [notify, contextHolder] = notification.useNotification();
+
+  const profileWithAva = profiles?.map(profile => ({
+    ...profile,
+    image: randomAvatar(),
+  }));
 
   useEffect(() => {
     if (isError) {
@@ -45,7 +50,7 @@ const RecommendUsers = () => {
                 {({ index, style }) => (
                   <div style={style}>
                     <FriendProfile
-                      profile={profiles[index]}
+                      profile={profileWithAva[index]}
                       // key={profiles[index].id}
                     />
                   </div>
