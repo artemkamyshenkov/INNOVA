@@ -13,7 +13,6 @@ interface FriendProfileProps {
 // TODO: рандомные авы
 export const FriendProfile: React.FC<FriendProfileProps> = ({ profile }) => {
   const [notify, contextHolder] = notification.useNotification();
-
   const copyText = async (text: string) => {
     try {
       await clipboardApi.copyText(text);

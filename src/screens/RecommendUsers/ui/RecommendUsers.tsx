@@ -1,6 +1,8 @@
 import { Row } from 'react-grid-system';
 import { Typography, notification } from 'antd';
 import { useEffect } from 'react';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList as List } from 'react-window';
 import { useGetFriendsQuery } from '@/shared/api/friendsServise';
 import { Page } from '@/shared/ui/Page';
 import { PageLoader } from '@/shared/ui/PageLoader/PageLoader';
@@ -31,11 +33,31 @@ const RecommendUsers = () => {
           </Typography.Title>
         )}
         {profiles.length && (
-          <Row direction="column" align="center">
-            {profiles.map(profile => (
-              <FriendProfile profile={profile} key={profile.id} />
-            ))}
-          </Row>
+          <AutoSizer>
+            {({ height, width }: any) => (
+              <List
+                className="List"
+                height={height}
+                itemCount={profiles?.length}
+                itemSize={270}
+                width={width}
+              >
+                {({ index, style }) => (
+                  <div style={style}>
+                    <FriendProfile
+                      profile={profiles[index]}
+                      // key={profiles[index].id}
+                    />
+                  </div>
+                )}
+              </List>
+            )}
+          </AutoSizer>
+          // <Row direction="column" align="center">
+          //   {profiles.map(profile => (
+          //     <FriendProfile profile={profile} key={profile.id} />
+          //   ))}
+          // </Row>
         )}
       </Page>
     </>

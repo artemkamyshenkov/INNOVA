@@ -14,7 +14,7 @@ export const friendsApi = createApi({
     getFriends: builder.query<FriendsApiRes, unknown>({
       query: () => ({
         url: 'users',
-        params: { _quantity: 10 },
+        params: { _quantity: 1000 },
         method: 'GET',
       }),
     }),
