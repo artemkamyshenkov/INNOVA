@@ -4,12 +4,14 @@ import { StateSchema } from './StateSchema';
 
 import { authApi } from '@/shared/api/authService';
 import { mediaApi, unsplashApi } from '@/shared/api/mediaService';
+import { friendsApi } from '@/shared/api/friendsServise';
 
 const rootReducers = {
   user: userReducer,
   [authApi.reducerPath]: authApi.reducer,
   [mediaApi.reducerPath]: mediaApi.reducer,
   [unsplashApi.reducerPath]: unsplashApi.reducer,
+  [friendsApi.reducerPath]: friendsApi.reducer,
 };
 const store = configureStore<StateSchema>({
   reducer: rootReducers,
@@ -19,6 +21,7 @@ const store = configureStore<StateSchema>({
       authApi.middleware,
       mediaApi.middleware,
       unsplashApi.middleware,
+      friendsApi.middleware,
     ) as any,
 });
 
