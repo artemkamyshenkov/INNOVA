@@ -49,7 +49,7 @@ export const Sidebar = () => {
     <Menu
       mode="inline"
       inlineCollapsed={collapsed}
-      items={SidebarItems(collapsed)}
+      items={sidebarItems(collapsed)}
       className={styles.sidebar}
       onClick={props => handleClickItem(props.key)}
       defaultSelectedKeys={[selectedKey]}
