@@ -16,7 +16,7 @@ import { MENU_ITEMS } from '../config/constants';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-export const SidebarItems = (collapsed: boolean): MenuItem[] => [
+export const sidebarItems = (collapsed: boolean): MenuItem[] => [
   {
     label: '',
     key: MENU_ITEMS.COLLAPSED,
