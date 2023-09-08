@@ -1,7 +1,7 @@
 import { Menu } from 'antd';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { SidebarItems } from './SidebarItems';
+import { sidebarItems } from './sidebarItems';
 import styles from './Sidebar.module.scss';
 import { useAppDispatch } from '@/shared/hooks/redux';
 import { userActions } from '@/entities/User';
