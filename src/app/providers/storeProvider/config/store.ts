@@ -5,9 +5,11 @@ import { StateSchema } from './StateSchema';
 import { authApi } from '@/shared/api/authService';
 import { mediaApi, unsplashApi } from '@/shared/api/mediaService';
 import { friendsApi } from '@/shared/api/friendsServise';
+import { uiReducer } from '@/entities/UI';
 
 const rootReducers = {
   user: userReducer,
+  ui: uiReducer,
   [authApi.reducerPath]: authApi.reducer,
   [mediaApi.reducerPath]: mediaApi.reducer,
   [unsplashApi.reducerPath]: unsplashApi.reducer,

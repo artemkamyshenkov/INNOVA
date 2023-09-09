@@ -1,7 +1,7 @@
-import { Container } from 'react-grid-system';
 import { RegisterForm } from '@/features/RegisterForm';
+import { Page } from '@/widgets/Page';
+import { Container } from 'react-grid-system';
 import styles from './RegisterPage.module.scss';
-import { Page } from '@/shared/ui/Page';
 
 const RegisterPage = () => (
   <Page>
