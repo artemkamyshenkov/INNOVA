@@ -13,8 +13,8 @@ export interface CurrentUser {
   username: string;
 }
 export interface UserSchema {
-  authData?: AuthData;
-  user?: CurrentUser;
-  loading?: boolean;
-  error?: string;
+  authData: AuthData;
+  user: CurrentUser;
+  loading: boolean;
+  error: string;
 }

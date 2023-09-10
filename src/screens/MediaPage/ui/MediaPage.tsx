@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useGetPhotosQuery } from '@/shared/api/mediaService';
+import { PageLoader } from '@/shared/ui/PageLoader/PageLoader';
+import { Page } from '@/widgets/Page';
 import { Photo } from '@/widgets/Photo';
 import styles from './MediaPage.module.scss';
-import { PageLoader } from '@/shared/ui/PageLoader/PageLoader';
-import { Page } from '@/shared/ui/Page';
 
 // FIXME: Иногда выбивает ошибку при загрузке чанка
 

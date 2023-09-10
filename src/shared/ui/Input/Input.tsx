@@ -10,6 +10,7 @@ interface InputProps<T> extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   rules?: RegisterOptions;
   error?: string;
+  isProfile?: boolean;
 }
 
 export const Input = <T extends unknown>({
@@ -20,6 +21,7 @@ export const Input = <T extends unknown>({
   label,
   error,
   className,
+  isProfile = false,
   ...props
 }: InputProps<T>) => (
   <>
@@ -31,7 +33,11 @@ export const Input = <T extends unknown>({
         className={cn(styles.input, className)}
         {...props}
       />
-      {error && <p className={styles.error}>{error || 'Ошибка'}</p>}
+      {error && (
+        <p className={cn({ [styles.errorProfile]: isProfile }, styles.error)}>
+          {error || 'Ошибка'}
+        </p>
+      )}
     </div>
   </>
 );

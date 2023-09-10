@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkinnova_ipr=self.webpackChunkinnova_ipr||[]).push([[136],{2136:(n,e,i)=>{i.r(e),i.d(e,{default:()=>u});var r=i(5893);const u=function(){return(0,r.jsx)("div",{children:"About"})}}}]);

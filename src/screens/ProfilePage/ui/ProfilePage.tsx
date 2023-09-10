@@ -1,10 +1,10 @@
-import { ChangeEvent, useState } from 'react';
 import { Skeleton, notification } from 'antd';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
+import { ChangeEvent, useState } from 'react';
 import { updateUserAvatar } from '@/entities/User';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
+import { Page } from '@/widgets/Page';
 import { UserProfileEdit } from '@/widgets/UserProfile';
 import { UserProfileView } from '@/widgets/UserProfile/ui/UserProfileView';
-import { Page } from '@/shared/ui/Page';
 
 type Mode = 'view' | 'edit';
 

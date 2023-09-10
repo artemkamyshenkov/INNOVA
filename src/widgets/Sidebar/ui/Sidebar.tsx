@@ -13,7 +13,7 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const selectedKey =
-    location.pathname === '/' ? 'profile' : location.pathname.substring(1);
+    location.pathname === '/' ? 'profile' : location?.pathname?.substring(1);
   const dispatch = useAppDispatch();
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -39,6 +39,9 @@ export const Sidebar = () => {
         break;
       case MENU_ITEMS.RECOMMENDED:
         navigate(RoutePath.recommended);
+        break;
+      case MENU_ITEMS.ABOUT:
+        navigate(RoutePath.about);
         break;
       default:
         return '';

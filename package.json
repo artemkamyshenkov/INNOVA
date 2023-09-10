@@ -93,5 +93,11 @@
     "react-window": "^1.8.9",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

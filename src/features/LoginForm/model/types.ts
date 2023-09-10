@@ -1,5 +1,3 @@
-export type LoginFormData = {
-  email: string;
-  password: string;
-  returnSecureToken?: boolean;
-};
+import { AbstractAuthData } from '@/shared/types/user';
+
+export interface LoginFormData extends AbstractAuthData {}

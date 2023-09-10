@@ -1,8 +1,7 @@
-export interface RegisterFormData {
+import { AbstractAuthData } from '@/shared/types/user';
+
+export interface RegisterFormData extends AbstractAuthData {
   firstName?: string;
-  email: string;
-  password: string;
-  returnSecureToken?: boolean;
   confirmPassword?: string;
   lastName?: string;
   username?: string;

@@ -16,6 +16,9 @@
   @include errorMessage;
   text-align: start;
   margin-bottom: 0.5rem;
+}
+
+.errorProfile {
   position: absolute;
   top: 2.5rem;
   left: 0;
