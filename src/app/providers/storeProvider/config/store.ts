@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { userReducer } from '@/entities/User';
-import { StateSchema } from './StateSchema';
 
 import { authApi } from '@/shared/api/authService';
 import { mediaApi, unsplashApi } from '@/shared/api/mediaService';
@@ -15,7 +14,8 @@ const rootReducers = {
   [unsplashApi.reducerPath]: unsplashApi.reducer,
   [friendsApi.reducerPath]: friendsApi.reducer,
 };
-const store = configureStore<StateSchema>({
+
+const store = configureStore({
   reducer: rootReducers,
   devTools: __IS_DEV__,
   middleware: getDefaultMiddleware =>
@@ -24,7 +24,7 @@ const store = configureStore<StateSchema>({
       mediaApi.middleware,
       unsplashApi.middleware,
       friendsApi.middleware,
-    ) as any,
+    ),
 });
 
 export function createReduxStore() {

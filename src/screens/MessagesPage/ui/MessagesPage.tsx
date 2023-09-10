@@ -1,6 +1,6 @@
+import { Col, Row } from 'react-grid-system';
 import { Messages } from '@/features/Messages';
 import { Page } from '@/widgets/Page';
-import { Col, Row } from 'react-grid-system';
 import styles from './MessagesPage.module.scss';
 
 const MessagesPage = () => (
