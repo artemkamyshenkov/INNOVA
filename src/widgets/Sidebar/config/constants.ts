@@ -4,7 +4,6 @@ export const MENU_ITEMS = {
   MESSAGES: 'messages',
   MEDIA: 'media',
   PHOTO_LIST: 'photo',
-  SETTING: 'setting',
   RECOMMENDED: 'recommended',
   ABOUT: 'about',
   LOGOUT: 'logout',

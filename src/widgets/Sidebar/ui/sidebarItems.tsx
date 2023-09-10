@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   FileImageOutlined,
   InfoCircleOutlined,
@@ -6,12 +5,12 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MessageOutlined,
-  SettingOutlined,
   UserOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons';
 
 import type { MenuProps } from 'antd/es/menu';
+import { Tooltip } from 'antd';
 import { MENU_ITEMS } from '../config/constants';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -38,12 +37,9 @@ export const SidebarItems = (collapsed: boolean): MenuItem[] => [
     icon: <FileImageOutlined />,
   },
   {
-    label: 'Настройки',
-    key: MENU_ITEMS.SETTING,
-    icon: <SettingOutlined />,
-  },
-  {
-    label: 'Рекомендованные профили',
+    label: (
+      <Tooltip title="Рекомендованные профили">Рекомендованные профили</Tooltip>
+    ),
     key: MENU_ITEMS.RECOMMENDED,
     icon: <UsergroupAddOutlined />,
   },

@@ -71,6 +71,7 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
                 required: 'Поле обязательно к заполнению',
               }}
               error={formError?.firstName?.message}
+              isProfile
             />
             <Input
               defaultValue={user?.lastName || ''}
@@ -81,6 +82,7 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
                 required: 'Поле обязательно к заполнению',
               }}
               error={formError?.lastName?.message}
+              isProfile
             />
             <Input
               defaultValue={user?.username || ''}
@@ -91,6 +93,7 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
                 required: 'Поле обязательно к заполнению',
               }}
               error={formError?.username?.message}
+              isProfile
             />
           </Col>
           <Col xl={4} className={styles.fieldContainer}>
@@ -103,6 +106,7 @@ export const UserProfileEdit: React.FC<UserProfileEditProps> = ({
                 required: 'Поле обязательно к заполнению',
               }}
               error={formError?.email?.message}
+              isProfile
             />
           </Col>
           <Col xl={4} className={styles.fieldContainer}>
