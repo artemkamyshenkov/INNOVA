@@ -29,28 +29,31 @@ const ProfilePage = () => {
     setMode(mode === 'view' ? 'edit' : 'view');
   };
 
-  if (loading) {
-    return <Skeleton />;
-  }
-
   return (
     <Page>
       {contextHolder}
-      {mode === 'view' ? (
-        <UserProfileView
-          user={user}
-          mode={mode}
-          onEditProfile={handleEditProfile}
-          onFileChange={handleFileChange}
-        />
+      {loading ? (
+        <Skeleton />
       ) : (
-        <UserProfileEdit
-          user={user}
-          authData={authData}
-          onFileChange={handleFileChange}
-          onEditProfile={handleEditProfile}
-          notify={notify}
-        />
+        <>
+          {' '}
+          {mode === 'view' ? (
+            <UserProfileView
+              user={user}
+              mode={mode}
+              onEditProfile={handleEditProfile}
+              onFileChange={handleFileChange}
+            />
+          ) : (
+            <UserProfileEdit
+              user={user}
+              authData={authData}
+              onFileChange={handleFileChange}
+              onEditProfile={handleEditProfile}
+              notify={notify}
+            />
+          )}
+        </>
       )}
     </Page>
   );
